@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link href='style.css' rel='stylesheet'>
+    <title>Library</title>
+    <link rel='shortcut icon' type='image/png' href='images/logo.svg'>
+</head>
+<html>
+    <body>
+        <div id='top-section'>
+            <div id='top-left'>
+                <img id='logo' src="images/logo.svg">
+                <p id='title'>My Library</p>
+            </div>
+            <div id='top-right'>
+                <div id='lib-log'>
+                    <p id='lib-log-title'>Library Log</p>
+                    <div id='lib-log-stats'>
+                        <div class='lib-log-stat'>
+                            <p>Books Read:</p>
+                            <p id='books-read'>0</p>
+                        </div>
+                        <div class='lib-log-stat'>
+                            <p>Books Not Read:</p>
+                            <p id='books-read'>0</p>
+                        </div>
+                        <div class='lib-log-stat'>
+                            <p>Total Books:</p>
+                            <p id='books-read'>0</p>
+                        </div>
+                    </div>
+                </div>
+                <div id='dark-mode'>
+                    <p>Dark Mode:</p>
+                    <input type="checkbox" id="switch" />
+                    <label for="switch">Toggle</label>
+                </div>
+            </div>
+        </div>
+        <div id='nav-section'>
+            <div id='nav-left'>
+                <p>Order By:</p>
+                <div>
+                    <select name='sort-by' id='sort-by'>
+                        <option value='date-published'>Date Published</option>
+                        <option value='date-inserted'>Date Inserted</option>
+                        <option value='total-pages'>Total Pages</option>
+                        <option value='language'>Language</option>
+                    </select>
+                </div>
+                <div>
+                    <select name='asc-desc' id='asc-desc'>
+                        <option value='ascending'>Ascending</option>
+                        <option value='descending'>Descending</option>
+                    </select>
+                </div>
+            </div>
+            <div id='nav-right'>
+                <p>Read:</p>
+                <div id='read-box'></div>
+                <p>Not Read:</p>
+                <div id='not-read-box'></div>
+            </div>
+        </div>
+        <div id='book-section'>
+            <div class='book'>
+                <div class='x-button'>✕</div>
+                <div class='book-contents'>
+                    <h2 class='title'>12 Rules for Life: An Antidote to Chaos</h2>
+                    <p class='author'>By: Jordan B. Peterson</p>
+                    <p class='pages'>Length: 448 Pages</p>
+                    <p class='language'>Language: English</p>
+                </div>
+                <div class='read-or-not-read'>
+                    <p class='read-status'>Mark As Unread</p>
+                    <input type="checkbox" id="switch-2" />
+                    <label class="read-button" for="switch-2">Toggle</label>
+                </div>
+            </div>
+            <div class='book'>
+                <div class='x-button'>✕</div>
+                <div class='book-contents'>
+                    <h2 class='title'>12 Rules for Life: An Antidote to Chaos</h2>
+                    <p class='author'>By: Jordan B. Peterson</p>
+                    <p class='pages'>Length: 448 Pages</p>
+                    <p class='language'>Language: English</p>
+                </div>
+                <div class='read-or-not-read'>
+                    <p class='read-status'>Mark As Unread</p>
+                    <input type="checkbox" id="switch-3" />
+                    <label class="read-button" for="switch-3">Toggle</label>
+                </div>
+            </div>
+            <div class='book'>
+                <div class='x-button'>✕</div>
+                <div class='book-contents'>
+                    <h2 class='title'>12 Rules for Life</h2>
+                    <p class='author'>By: Jordan B. Peterson</p>
+                    <p class='pages'>Length: 448 Pages</p>
+                    <p class='language'>Language: English</p>
+                </div>
+                <div class='read-or-not-read'>
+                    <p class='read-status'>Mark As Unread</p>
+                    <input type="checkbox" id="switch-4" checked="checked"/>
+                    <label class="read-button" for="switch-4">Toggle</label>
+                </div>
+            </div>
+        </div>
+        <div id="popup-button" onclick="myFunction()">
+            <p>+</p>
+            <span id="popup-conents"></span>
+        </div>
+    </body>
+    <script src='scripts.js' type='text/javascript'></script>
+</html>
