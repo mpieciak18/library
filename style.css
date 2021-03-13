@@ -61,7 +61,7 @@ label:after {
 	transition: 0.3s;
 }
 input:checked + label {
-	background: #bada55;
+	background: #44b9ec;
 }
 input:checked + label:after {
 	left: calc(100% - 1px);
@@ -159,8 +159,7 @@ input:checked + label:after {
     flex-wrap: wrap;
     justify-content: center;
 }
-.book {
-    background-image: linear-gradient(to bottom right, #44b9ec, #055c93);
+.book-read, .book-unread {
     border-radius: 10px;
     box-shadow: grey 2px 2px 5px 1px;
     color: #e5f6ff;
@@ -171,12 +170,18 @@ input:checked + label:after {
     margin: 1%;
     width: 27%;
 }
+.book-read {
+    background-image: linear-gradient(to bottom right, #44b9ec, #055c93);
+}
+.book-unread {
+    background-image: linear-gradient(to bottom right, #848c8c, #164460);
+}
 .book-contents > p {
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: bold;
 }
-.title {
+.book-contents > h2 {
     font-size: x-large;
     word-wrap: break-word;
     height: 10.5vh;
