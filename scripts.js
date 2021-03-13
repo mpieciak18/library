@@ -1,14 +1,14 @@
 // Inital Variables
 //
-let toggleButtonCounter = 0
-
+let toggleButtonCounter = 0;
+let bookIdCounter = 0;
+let myLibrary = [];
 // HTML Elements
 //
 let bookSection = document.getElementById('book-section')
 let readButtons = document.getElementsByClassName('read-label-input');
-
-let myLibrary = [];
-
+// Book constructor
+//
 class Book {
     constructor(title, author, pages, language, read) {
         // Initialize object properties
@@ -17,9 +17,11 @@ class Book {
         this.pages = pages;
         this.language = language;
         this.read = read;
+        this.id = bookIdCounter;
+        bookIdCounter =+ 1;
         // Create book element
         this.block = document.createElement('div');
-        if (this.read = true) {
+        if (this.read == true) {
             this.block.className = 'book-read';
         } else {
             this.block.className = 'book-unread';
@@ -35,11 +37,11 @@ class Book {
         this.bookTitle = document.createElement('h2');
         this.bookTitle.innerText = this.title;
         this.bookAuthor = document.createElement('p');
-        this.bookAuthor.innerText = this.author;
+        this.bookAuthor.innerText = `By: ${this.author}`;
         this.bookPages = document.createElement('p');
-        this.bookPages.innerText = this.pages;
+        this.bookPages.innerText = `Length: ${this.pages} Pages`;
         this.bookLanguage = document.createElement('p');
-        this.bookLanguage.innerText = this.language;
+        this.bookLanguage.innerText = `Language: ${this.language}`;
         // Add book-contents child elements to book-contents
         this.bookContents.appendChild(this.bookTitle);
         this.bookContents.appendChild(this.bookAuthor);
@@ -59,13 +61,13 @@ class Book {
         // Create input child element for read-or-not
         this.toggleButtonInput = document.createElement('INPUT');
         this.toggleButtonInput.setAttribute('type', 'checkbox');
-        toggleButtonCounter += 1;
         this.toggleButtonInput.id = `switch${toggleButtonCounter.toString()}`;
         if (this.read == true) {
             this.toggleButtonInput.checked = true;
         } else {
             this.toggleButtonInput.checked = false;
         };
+        toggleButtonCounter += 1;
         // Create label child element for read-or-not
         this.toggleButtonLabel = document.createElement('LABEL');
         this.toggleButtonLabel.htmlFor = this.toggleButtonInput.id;
@@ -82,14 +84,17 @@ class Book {
         bookSection.appendChild(this.block);
     };
 };
-
-let addBookToLibrary = function(book) {
-};
-// Toggle Button Functions
+// let addBookToLibrary = function(book) {
+// };
+// // Toggle Button Functions
+// //
+// let displayMessage = function() {
+//     alert('pop goes the weasel');
+// }
+// // Event Listeners
+// //
+// toggleButton.addEventListener('click', change);
+// Initialize two sample objects
 //
-let displayMessage = function() {
-    alert('pop goes the weasel');
-}
-// Event Listeners
-//
-toggleButton.addEventListener('click', change);
+let book1 = new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true)
+let book2 = new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false)
