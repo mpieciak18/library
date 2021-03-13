@@ -6,7 +6,11 @@ let myLibrary = {};
 // HTML Elements
 //
 let bookSection = document.getElementById('book-section')
-let readButtons = document.getElementsByClassName('read-label-input');
+// Toggle Button Functions
+//
+let changeReadStatus = function(event) {
+    console.log('yeet')
+};
 // Book constructor
 //
 let Book = function(title, author, pages, language, read) {
@@ -61,12 +65,14 @@ let Book = function(title, author, pages, language, read) {
     // Create input child element for read-or-not
     let toggleButtonInput = document.createElement('INPUT');
     toggleButtonInput.setAttribute('type', 'checkbox');
+    toggleButtonInput.className = 'read-input';
     toggleButtonInput.id = `switch${toggleButtonCounter.toString()}`;
     if (this.read == true) {
         toggleButtonInput.checked = true;
     } else {
         toggleButtonInput.checked = false;
     };
+    toggleButtonInput.addEventListener('click', changeReadStatus);
     toggleButtonCounter += 1;
     // Create label child element for read-or-not
     let toggleButtonLabel = document.createElement('LABEL');
@@ -85,17 +91,17 @@ let Book = function(title, author, pages, language, read) {
     // Add object to book library
     myLibrary[this.id] = this;
 };
-// let addBookToLibrary = function(book) {
-// };
-// // Toggle Button Functions
-// //
-// let displayMessage = function() {
-//     alert('pop goes the weasel');
-// }
-// // Event Listeners
-// //
-// toggleButton.addEventListener('click', change);
-// Initialize two sample objects
+let book0 = new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true)
+let book1 = new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false)
+
+
+let changeDarkMode = function(event) {
+
+};
+// Event Listeners
 //
-let book1 = new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true)
-let book2 = new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false)
+let readButtons = document.getElementsByClassName('read-input');
+for (i = 0; i < readButtons.length; i++) {
+    readButtons[i].addEventListener('click', changeReadStatus);
+}
+let darkModeButton = document.getElementById('dark-mode-button')
