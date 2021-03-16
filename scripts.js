@@ -5,11 +5,51 @@ let bookIdCounter = 0;
 let myLibrary = {};
 // HTML Elements
 //
-let bookSection = document.getElementById('book-section')
-// Toggle Button Functions
+let darkModeButton = document.getElementById('dark-mode-button');
+let bookSection = document.getElementById('book-section');
+let booksRead = document.getElementById('books-read');
+let booksNotRead = document.getElementById('books-not-read');
+let booksTotal = document.getElementById('books-total');
+// Event Listeners
+//
+// Toggle Button Function
 //
 let changeReadStatus = function(event) {
-    console.log('yeet')
+    let bookItself = event.target.parentNode.parentNode;
+    let toggleText = event.target.previousSibling;
+    let bookObject = myLibrary[Number(bookItself.id)];
+    if (bookObject.read == true) {
+        bookItself.className = 'book-unread';
+        toggleText.innerText = 'Mark As Read';
+        bookObject.read = false;
+        booksRead.innerText = (-1 + Number(booksRead.innerText)).toString();
+        booksNotRead.innerText = (1 + Number(booksNotRead.innerText)).toString();
+    } else {
+        bookItself.className = 'book-read';
+        toggleText.innerText = 'Mark As Unread';
+        bookObject.read = true;
+        booksRead.innerText = (1 + Number(booksRead.innerText)).toString();
+        booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
+    };    
+};
+// X Button Function
+//
+let deleteBookEntry = function(event) {
+    let bookElement = event.target.parentNode;
+    let bookId = Number(bookElement.id);
+    if (myLibrary[bookId].read == true) {
+        booksRead.innerText = (-1 + Number(booksRead.innerText)).toString();
+    } else {
+        booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
+    }; 
+    booksTotal.innerText = (-1 + Number(booksTotal.innerText)).toString();
+    delete myLibrary[bookId];
+    bookElement.remove();
+};
+// Dark Mode Function
+//
+let changeDarkMode = function(event) {
+
 };
 // Book constructor
 //
@@ -21,7 +61,7 @@ let Book = function(title, author, pages, language, read) {
     this.language = language;
     this.read = read;
     this.id = bookIdCounter;
-    bookIdCounter =+ 1;
+    bookIdCounter += 1;
     // Create book element
     this.block = document.createElement('div');
     if (this.read == true) {
@@ -34,6 +74,7 @@ let Book = function(title, author, pages, language, read) {
     let xButton = document.createElement('div');
     xButton.className = 'x-button';
     xButton.innerText = '✕';
+    xButton.addEventListener('click', deleteBookEntry);
     // Create book-contents child element
     let bookContents = document.createElement('div');
     bookContents.className = 'book-contents';
@@ -90,18 +131,13 @@ let Book = function(title, author, pages, language, read) {
     bookSection.appendChild(this.block);
     // Add object to book library
     myLibrary[this.id] = this;
+    // Update book stats
+    if (this.read == true) {
+        booksRead.innerText = (1 + Number(booksRead.innerText)).toString();
+    } else {
+        booksNotRead.innerText = (1 + Number(booksNotRead.innerText)).toString();
+    };
+    booksTotal.innerText = (1 + Number(booksTotal.innerText)).toString();
 };
-let book0 = new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true)
-let book1 = new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false)
-
-
-let changeDarkMode = function(event) {
-
-};
-// Event Listeners
-//
-let readButtons = document.getElementsByClassName('read-input');
-for (i = 0; i < readButtons.length; i++) {
-    readButtons[i].addEventListener('click', changeReadStatus);
-}
-let darkModeButton = document.getElementById('dark-mode-button')
+new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true)
+new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false)
