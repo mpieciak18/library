@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans&family=PT+Sans+Narrow&display=swap');
 
 body {
+    background-color: white;
     margin-top: 2.5%;
     margin-bottom: 2.5%;
     margin-left: 2.5%;
@@ -26,6 +27,7 @@ body {
     margin-left: 11px;
     margin-right: 6px;
     margin-top: 10px;
+    color: #164460;
 }
 #dark-mode > p {
     margin: 0px;
@@ -75,14 +77,14 @@ input:checked + label:after {
     font-size: 48px;
     margin: 0px;
     padding: 0px;
-    color: #055c93;
+    color: #164460;
     font-family: 'PT Sans Narrow', sans-serif;
     font-weight: bold;
 }
 #lib-log {
     border-style: solid;
     border-radius: 5px;
-    border-color: #055c93;
+    border-color: #164460;
     border-width: 1px;
     width: 250px;
 }
@@ -92,7 +94,7 @@ input:checked + label:after {
     margin: 15px;
 }
 #lib-log > * {
-    color: #055c93;
+    color: #164460;
     padding: 0px;
 }
 .lib-log-stat {
@@ -112,7 +114,7 @@ input:checked + label:after {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: #c4e5f3;
+    background-color: rgb(240, 240, 240);
     border-radius: 10px;
     padding-top: 3px;
     padding-bottom: 3px;
