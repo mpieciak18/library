@@ -1,18 +1,27 @@
+// Import Pop-Up Module & Create Element
+
+import { pop } from './modules/popup.js';
+// pop.init();
+window.addEventListener("DOMContentLoaded", pop.init());
+
 // Inital Variables
-//
+
 let toggleButtonCounter = 0;
 let bookIdCounter = 0;
 let myLibrary = {};
+
 // HTML Element for book section
-//
+
 let bookSection = document.getElementById('book-section');
+
 // HTML Elements for Book Counter
-//
+
 let booksRead = document.getElementById('books-read');
 let booksNotRead = document.getElementById('books-not-read');
 let booksTotal = document.getElementById('books-total');
+
 // HTML Elements for Dark Mode
-//
+
 let darkModeButton = document.getElementById('dark-mode-button');
 let pageTitle = document.getElementById('title');
 let pageLogo = document.getElementById('logo');
@@ -24,14 +33,15 @@ let pageBody = document.body;
 let bookBlocks = bookSection.children;
 let popupButton = document.getElementById('popup-button');
 let navSection = document.getElementById('nav-section');
-let sortBy = document.getElementById('sort-by');
-let ascDesc = document.getElementById('asc-desc');
+let favicon = document.getElementById('favicon');
+
 // Dark Mode Function
-//
+
 let changeDarkMode = function(event) {
     if (event.target.checked) {
         pageTitle.style.color = '#c4e5f3';
         pageLogo.src = 'images/logo-2.svg';
+        favicon.href = 'images/logo-2.svg';
         libLog.style.borderColor = '#c4e5f3';
         libLogTitle.style.color = '#c4e5f3';
         libLogStats.style.color = '#c4e5f3';
@@ -40,16 +50,13 @@ let changeDarkMode = function(event) {
         popupButton.style.boxShadow = 'rgb(10, 10, 10) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(30, 30, 30)';
         navSection.style.color = '#c4e5f3';
-        // sortBy.style.backgroundColor = 'rgb(60, 60, 60)';
-        // sortBy.style.color = '#c4e5f3';
-        // ascDesc.style.backgroundColor = 'rgb(60, 60, 60)';
-        // ascDesc.style.color = '#c4e5f3';
         for (i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'rgb(10, 10, 10) 2px 2px 5px 1px';
         };
     } else {
         pageTitle.style.color = '#164460';
         pageLogo.src = 'images/logo.svg';
+        favicon.href = 'images/logo.svg';
         libLog.style.borderColor = '#164460';
         libLogTitle.style.color = '#164460';
         libLogStats.style.color = '#164460';
@@ -58,20 +65,18 @@ let changeDarkMode = function(event) {
         popupButton.style.boxShadow = 'rgb(180, 180, 180) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(240, 240, 240)';
         navSection.style.color = '#164460';
-        // sortBy.style.backgroundColor = '';
-        // sortBy.style.color = '#164460';
-        // ascDesc.style.backgroundColor = '';
-        // ascDesc.style.color = '#164460';
         for (i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'grey 2px 2px 5px 1px';
         };
     };
 };
+
 // Event Listeners
-//
 darkModeButton.addEventListener('click', changeDarkMode);
+popupButton.firstChild.addEventListener('click', pop.open);
+
 // Toggle Button Function
-//
+
 let changeReadStatus = function(event) {
     let bookItself = event.target.parentNode.parentNode;
     let toggleText = event.target.previousSibling;
@@ -90,8 +95,9 @@ let changeReadStatus = function(event) {
         booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
     };    
 };
+
 // X Button Function
-//
+
 let deleteBookEntry = function(event) {
     let bookElement = event.target.parentNode;
     let bookId = Number(bookElement.id);
@@ -104,8 +110,9 @@ let deleteBookEntry = function(event) {
     delete myLibrary[bookId];
     bookElement.remove();
 };
-// Book constructor
-//
+
+// Book Constructor
+
 let Book = function(title, author, pages, language, read) {
     // Initialize object properties
     this.title = title;
@@ -192,5 +199,8 @@ let Book = function(title, author, pages, language, read) {
     };
     booksTotal.innerText = (1 + Number(booksTotal.innerText)).toString();
 };
-new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true)
-new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false)
+
+// Initialize Sample Book Instanes
+
+new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
+new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);

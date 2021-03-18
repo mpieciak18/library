@@ -165,7 +165,7 @@ input:checked + label:after {
 .book-read, .book-unread {
     border-radius: 10px;
     box-shadow: grey 2px 2px 5px 1px;
-    padding-top: 10px;
+    padding-top: 7px;
     padding-right: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
@@ -192,8 +192,9 @@ input:checked + label:after {
     margin-bottom: 0px;
 }
 .x-button {
-    text-align: right;
+    margin-left: 99%;
     cursor: pointer;
+    display: inline;
 }
 .read-or-not-read {
     display: flex;
@@ -207,20 +208,20 @@ input:checked + label:after {
     font-size: 13.5px;
 }
 #popup-button {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     cursor: pointer;
     height: 50px;
     width: 50px;
-    background-image: linear-gradient(to bottom right, #5d8bab, #286ec7);
+    background-image: linear-gradient(to bottom right, #118af2, #286ec7);
     color: white;
     border-radius: 100%;
     text-align: center;
     justify-content: center;
     box-shadow: rgb(182, 182, 182) 1px 1px 2px 1px;
     bottom: 2.5%;
-    right: 5%;
+    right: 2.5%;
     transition: all .1s ease
 }
 #popup-button:hover {
