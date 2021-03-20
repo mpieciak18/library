@@ -21,6 +21,9 @@
     max-width: 400px;
     background: white;
     margin: 50vh auto 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
     transform: translateY(-50%);
   }
   #pop-box > * {
@@ -35,12 +38,36 @@
     font-family: 'PT Sans Narrow', sans-serif;
   }
   
-  /* (D) FORM FIELDS */
+  /* (D) FORM */
   .pop-labels {
+    display: block;
   }
 
   .pop-inputs {
+    display: block;
+    width: 96.66%;
+    height: 30px;
+    margin-bottom: 10px;
+    font-size: small;
+  }
 
+  .pop-radio-labels {
+    display: inline;
+    margin-right: 20px;
+    font-size: medium;
+  }
+
+  .pop-radio-inputs {
+    display: inline;
+  }
+
+  #radio-box {
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+
+  #submit {
+    font-size: medium;
   }
   
   /* (E) CLOSE BUTTON */
