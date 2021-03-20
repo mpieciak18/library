@@ -3,7 +3,8 @@ let pop = {
   pWrap : null, // HTML popup wrapper
   pBox : null, // HTML popup box
   pTitle : null, // HTML popup title
-  pText : null, // HTML popup text
+  pLabelOne : null, // HTML popup field label (one)
+  pInputOne: null, // HTML popup field input (one)
   pClose : null, // HTML close button
   init : function () {
     // (A1) POPUP WRAPPER
@@ -19,12 +20,21 @@ let pop = {
     // (A3) TITLE
     pop.pTitle = document.createElement("h1");
     pop.pTitle.id = "pop-title";
+    pop.pTitle.innerHTML = 'Add a New Book Entry';
     pop.pBox.appendChild(pop.pTitle);
     
-    // (A4) TEXT
-    pop.pText = document.createElement("p");
-    pop.pText.id = "pop-text";
-    pop.pBox.appendChild(pop.pText);
+    // (A4) FORM FIELD ONE (TITLE)
+    pop.pLabelOne = document.createElement("LABEL");
+    pop.pLabelOne.classList = "pop-labels";
+    pop.pLabelOne.htmlFor = "input-one";
+    pop.pLabelOne.innerHTML = "Title:"
+    pop.pBox.appendChild(pop.pLabelOne);
+    pop.pInputOne = document.createElement("INPUT");
+    pop.pInputOne.classList = "pop-inputs";
+    pop.pInputOne.id = "input-one";
+    pop.pInputOne.name = "input-one";
+    pop.pInputOne.setAttribute("type", "text");
+    pop.pBox.appendChild(pop.pInputOne)
     
     // (A5) CLOSE
     pop.pClose = document.createElement("div");
@@ -36,8 +46,6 @@ let pop = {
 
   // (B) OPEN POPUP
   open : function () {
-    pop.pTitle.innerHTML = 'My Library';
-    pop.pText.innerHTML = 'Library Log';
     pop.pWrap.classList.add("open");
   },
 

@@ -19,28 +19,28 @@
   #pop-box {
     position: relative;
     max-width: 400px;
-    background: #fff;
+    background: white;
     margin: 50vh auto 0 auto;
     transform: translateY(-50%);
   }
   #pop-box > * {
     font-family: 'PT Sans', sans-serif;
+    color: #164460;
   }
   
   /* (C) TITLE */
   #pop-title {
     padding: 10px;
     margin: 0;
-    background: #921515;
-    color: #fff;
+    font-family: 'PT Sans Narrow', sans-serif;
   }
   
-  /* (D) TEXT */
-  #pop-text {
-    padding: 10px;
-    margin: 0;
-    background: #fff;
-    color: #555;
+  /* (D) FORM FIELDS */
+  .pop-labels {
+  }
+
+  .pop-inputs {
+
   }
   
   /* (E) CLOSE BUTTON */
@@ -48,7 +48,5 @@
     position: absolute;
     top: 0; right: 5px;
     padding: 5px;
-    color: #ffdcdc;
-    font-size: 32px;
     cursor: pointer;
   }

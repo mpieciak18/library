@@ -50,7 +50,7 @@ let changeDarkMode = function(event) {
         popupButton.style.boxShadow = 'rgb(10, 10, 10) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(30, 30, 30)';
         navSection.style.color = '#c4e5f3';
-        for (i = 0; i < bookBlocks.length; i++) {
+        for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'rgb(10, 10, 10) 2px 2px 5px 1px';
         };
     } else {
@@ -65,7 +65,7 @@ let changeDarkMode = function(event) {
         popupButton.style.boxShadow = 'rgb(180, 180, 180) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(240, 240, 240)';
         navSection.style.color = '#164460';
-        for (i = 0; i < bookBlocks.length; i++) {
+        for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'grey 2px 2px 5px 1px';
         };
     };
@@ -166,19 +166,21 @@ let Book = function(title, author, pages, language, read) {
     // Create input child element for read-or-not
     let toggleButtonInput = document.createElement('INPUT');
     toggleButtonInput.setAttribute('type', 'checkbox');
-    toggleButtonInput.className = 'read-input';
     toggleButtonInput.id = `switch${toggleButtonCounter.toString()}`;
+    toggleButtonCounter += 1;
+    toggleButtonInput.className = 'read-input toggle-input';
     if (this.read == true) {
         toggleButtonInput.checked = true;
     } else {
         toggleButtonInput.checked = false;
     };
     toggleButtonInput.addEventListener('click', changeReadStatus);
-    toggleButtonCounter += 1;
     // Create label child element for read-or-not
     let toggleButtonLabel = document.createElement('LABEL');
+    toggleButtonLabel.className = 'toggle-label';
     toggleButtonLabel.htmlFor = toggleButtonInput.id;
     toggleButtonLabel.innerText = 'Toggle';
+    // toggleButtonLabel.addEventListener('click', changeReadStatus);
     // Add read-or-not child elements to read-or-not
     readOrNotRead.appendChild(readStatus);
     readOrNotRead.appendChild(toggleButtonInput);

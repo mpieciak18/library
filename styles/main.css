@@ -35,12 +35,12 @@ body {
     align-items: center;
 }
 /* Start of Toggle Code */
-input[type=checkbox]{
+.toggle-input[type=checkbox] {
 	height: 0;
 	width: 0;
 	visibility: hidden;
 }
-label {
+.toggle-label {
 	cursor: pointer;
 	text-indent: -9999px;
 	width: 40px;
@@ -51,7 +51,7 @@ label {
     margin: 0px;
 	position: relative;
 }
-label:after {
+.toggle-label:after {
 	content: '';
 	position: absolute;
 	top: 1.5px;
@@ -62,10 +62,10 @@ label:after {
 	border-radius: 18px;
 	transition: 0.3s;
 }
-input:checked + label {
+.toggle-input:checked + .toggle-label {
 	background: #44b9ec;
 }
-input:checked + label:after {
+.toggle-input:checked + .toggle-label:after {
 	left: calc(100% - 1px);
 	transform: translateX(-100%);
 }
