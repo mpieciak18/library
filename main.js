@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", pop.init());
 
 let toggleButtonCounter = 0;
 let bookIdCounter = 0;
-let myLibrary = {};
+let myLibrary = [];
 
 // HTML Element for book section
 
@@ -70,12 +70,22 @@ let changeDarkMode = function(event) {
     };
 };
 
+// Return Book Object by Element ID Function
+
+let findThisBook = function(elementId) {
+    return myLibrary.find(function(book) {
+        if (book.id == Number(elementId)) {
+            return true;
+        };
+    });
+};
+
 // Toggle Button Function
 
 let changeReadStatus = function(event) {
     let bookItself = event.target.parentNode.parentNode;
     let toggleText = event.target.previousSibling;
-    let bookObject = myLibrary[Number(bookItself.id)];
+    let bookObject = findThisBook(bookItself.id);
     if (bookObject.read == true) {
         bookItself.className = 'book-unread';
         toggleText.innerText = 'Mark As Read';
@@ -95,14 +105,15 @@ let changeReadStatus = function(event) {
 
 let deleteBookEntry = function(event) {
     let bookElement = event.target.parentNode;
-    let bookId = Number(bookElement.id);
-    if (myLibrary[bookId].read == true) {
+    let bookObject = findThisBook(bookElement.id);
+    let indexOfObject = myLibrary.indexOf(bookObject);
+    if (bookObject.read == true) {
         booksRead.innerText = (-1 + Number(booksRead.innerText)).toString();
     } else {
         booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
     }; 
     booksTotal.innerText = (-1 + Number(booksTotal.innerText)).toString();
-    delete myLibrary[bookId];
+    myLibrary.splice(indexOfObject, 1);
     bookElement.remove();
 };
 
@@ -186,8 +197,8 @@ let Book = function(title, author, pages, language, read) {
     this.block.appendChild(readOrNotRead);
     // Add book element to book section parent element
     bookSection.appendChild(this.block);
-    // Add object to book library
-    myLibrary[this.id] = this;
+    // Add object to book library array
+    myLibrary.push(this);
     // Update book stats
     if (this.read == true) {
         booksRead.innerText = (1 + Number(booksRead.innerText)).toString();
@@ -217,5 +228,6 @@ pop.pSubmit.addEventListener('click', newBookFromForm);
 
 // Initialize Sample Book Instanes
 
-new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
-new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
+let book0 = new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
+let book1 = new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
+let book2 = new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
