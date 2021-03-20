@@ -1,7 +1,6 @@
 // Import Pop-Up Module & Create Element
 
 import { pop } from './modules/popup.js';
-// pop.init();
 window.addEventListener("DOMContentLoaded", pop.init());
 
 // Inital Variables
@@ -70,10 +69,6 @@ let changeDarkMode = function(event) {
         };
     };
 };
-
-// Event Listeners
-darkModeButton.addEventListener('click', changeDarkMode);
-popupButton.firstChild.addEventListener('click', pop.open);
 
 // Toggle Button Function
 
@@ -201,6 +196,24 @@ let Book = function(title, author, pages, language, read) {
     };
     booksTotal.innerText = (1 + Number(booksTotal.innerText)).toString();
 };
+
+// Form Submission Function
+
+let newBookFromForm = function(event) {
+    let title = event.target.parentNode[0].value;
+    let author = event.target.parentNode[1].value;
+    let pages = event.target.parentNode[2].value;
+    let language = event.target.parentNode[3].value;
+    let read = event.target.parentNode[4].checked;
+    new Book(title, author, pages, language, read);
+    pop.close();
+}
+
+// Event Listeners
+
+darkModeButton.addEventListener('click', changeDarkMode);
+popupButton.firstChild.addEventListener('click', pop.open);
+pop.pSubmit.addEventListener('click', newBookFromForm);
 
 // Initialize Sample Book Instanes
 

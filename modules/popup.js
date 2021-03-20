@@ -20,7 +20,9 @@ let pop = {
 
     // (A4) CREATE FORM
     pop.pForm = document.createElement("form");
-    
+    pop.pForm.action = "";
+    pop.pForm.method = "get";
+
     // (A5) FORM FIELD ONE (TITLE)
     pop.pLabelOne = document.createElement("LABEL");
     pop.pLabelOne.classList = "pop-labels";
@@ -109,9 +111,9 @@ let pop = {
 
      // (A10) FORM SUBMIT BUTTON
      pop.pSubmit = document.createElement("INPUT");
-     pop.pSubmit.id = "submit";
+     pop.pSubmit.id = "button";
      pop.pSubmit.value = 'Add New Book';
-     pop.pSubmit.setAttribute("type", "submit");
+     pop.pSubmit.setAttribute("type", "button");
      pop.pForm.appendChild(pop.pSubmit);
 
     // (A11) APPEND FORM TO BOX
