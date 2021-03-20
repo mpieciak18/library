@@ -199,6 +199,7 @@ let Book = function(title, author, pages, language, read) {
     bookSection.appendChild(this.block);
     // Add object to book library array
     myLibrary.push(this);
+    console.log(myLibrary);
     // Update book stats
     if (this.read == true) {
         booksRead.innerText = (1 + Number(booksRead.innerText)).toString();
