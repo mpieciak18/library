@@ -13,6 +13,9 @@ window.bookIdCounter = 0;
 window.myLibrary = [];
 // let sortOption = 'title';
 window.sortOption = 'title';
+window.sortChildrenIndex = {
+    'title': 0
+};
 // let sortDirection = 'asc';
 window.sortDirection = 'asc';
 
@@ -221,6 +224,26 @@ let createBookElement = function(thisBook) {
         booksNotRead.innerText = (1 + Number(booksNotRead.innerText)).toString();
     };
     booksTotal.innerText = (1 + Number(booksTotal.innerText)).toString();
+};
+
+// Sort Book Elements Function
+
+window.sortBookElements = function() {
+    let booksToSort = bookSection.children;
+    booksToSort = Array.prototype.slice.call(booksToSort);
+    if (sortOption == 'title') {
+        booksToSort.sort(function(a, b) {
+            if (a.children[1].children[0].innerHTML > b.children[1].children[0].innerHTML) {
+                return -1
+            } else {
+                return 1
+            };
+        });
+        bookSection.innerHTML = '';
+        for (let i = 0; i < booksToSort.length; i++) {
+            bookSection.append(booksToSort[i]);
+        };
+    }; 
 };
 
 // Form Submission Function
