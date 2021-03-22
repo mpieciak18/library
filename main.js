@@ -1,10 +1,8 @@
 // Import Pop-Up Module & Create Element
-
 import { pop } from './modules/popup.js';
 window.addEventListener("DOMContentLoaded", pop.init());
 
 // Inital Variables
-
 // let toggleButtonCounter = 0;
 window.toggleButtonCounter = 0;
 // let bookIdCounter = 0;
@@ -14,7 +12,10 @@ window.myLibrary = [];
 // let sortOption = 'title';
 window.sortOption = 'title';
 // sortChildrenIndex = {
-//     'title': 0
+//     'title': 0,
+//     'author': 1,
+//     'length': 2,
+//     'language': 3
 // };
 window.sortChildrenIndex = {
     'title': 0,
@@ -26,17 +27,18 @@ window.sortChildrenIndex = {
 window.sortDirection = 'asc';
 
 // HTML Element for book section
-
 let bookSection = document.getElementById('book-section');
 
 // HTML Elements for Book Counter
-
 let booksRead = document.getElementById('books-read');
 let booksNotRead = document.getElementById('books-not-read');
 let booksTotal = document.getElementById('books-total');
 
-// HTML Elements for Dark Mode
+// HTML Elements for Sorting
+let sortByDropdown = document.getElementById('sort-by');
+let ascDescDropdown = document.getElementById('asc-desc');
 
+// HTML Elements for Dark Mode
 let darkModeButton = document.getElementById('dark-mode-button');
 let pageTitle = document.getElementById('title');
 let pageLogo = document.getElementById('logo');
@@ -51,7 +53,6 @@ let navSection = document.getElementById('nav-section');
 let favicon = document.getElementById('favicon');
 
 // Dark Mode Function
-
 let changeDarkMode = function(event) {
     if (event.target.checked) {
         pageTitle.style.color = '#c4e5f3';
@@ -87,7 +88,6 @@ let changeDarkMode = function(event) {
 };
 
 // Return Book Object by Element ID Function
-
 let findThisBook = function(elementId) {
     return myLibrary.find(function(book) {
         if (book.id == Number(elementId)) {
@@ -97,7 +97,6 @@ let findThisBook = function(elementId) {
 };
 
 // Toggle Button Function
-
 let changeReadStatus = function(event) {
     let bookItself = event.target.parentNode.parentNode;
     let toggleText = event.target.previousSibling;
@@ -118,7 +117,6 @@ let changeReadStatus = function(event) {
 };
 
 // X Button Function
-
 let deleteBookEntry = function(event) {
     let bookElement = event.target.parentNode;
     let bookObject = findThisBook(bookElement.id);
@@ -134,7 +132,6 @@ let deleteBookEntry = function(event) {
 };
 
 // Book Constructor
-
 let Book = function(title, author, pages, language, read) {
     // Initialize object properties
     this.title = title;
@@ -153,7 +150,6 @@ let Book = function(title, author, pages, language, read) {
 };
 
 // New Book Element Function
-
 let createBookElement = function(thisBook) {
     // Create book element
     thisBook.block = document.createElement('div');
@@ -233,12 +229,11 @@ let createBookElement = function(thisBook) {
 };
 
 // Sort Book Elements Function
-
-window.sortBookElements = function() {
+let sortBookElements = function() {
     let booksToSort = bookSection.children;
     booksToSort = Array.prototype.slice.call(booksToSort);
     let sortReturn = null;
-    if (sortDirection == 'asc') {
+    if (sortDirection == 'ascending') {
         sortReturn = 1;
     } else {
         sortReturn = -1;
@@ -266,7 +261,6 @@ window.sortBookElements = function() {
 }; 
 
 // Form Submission Function
-
 let newBookFromForm = function(event) {
     let title = event.target.parentNode[0].value;
     let author = event.target.parentNode[1].value;
@@ -275,16 +269,25 @@ let newBookFromForm = function(event) {
     let read = event.target.parentNode[4].checked;
     new Book(title, author, pages, language, read);
     pop.close();
+};
+
+let sortByChange = function(event) {
+    sortOption = event.target.value;
+    sortBookElements();
+};
+let ascDescChange = function(event) {
+    sortDirection = event.target.value;
+    sortBookElements();
 }
 
 // Event Listeners
-
 darkModeButton.addEventListener('click', changeDarkMode);
 popupButton.firstChild.addEventListener('click', pop.open);
 pop.pSubmit.addEventListener('click', newBookFromForm);
+sortByDropdown.addEventListener('change', sortByChange);
+ascDescDropdown.addEventListener('change', ascDescChange);
 
 // Initialize Sample Book Instanes
-
 new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
 new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
 new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
