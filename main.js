@@ -13,8 +13,14 @@ window.bookIdCounter = 0;
 window.myLibrary = [];
 // let sortOption = 'title';
 window.sortOption = 'title';
+// sortChildrenIndex = {
+//     'title': 0
+// };
 window.sortChildrenIndex = {
-    'title': 0
+    'title': 0,
+    'author': 1,
+    'length': 2,
+    'language': 3
 };
 // let sortDirection = 'asc';
 window.sortDirection = 'asc';
@@ -231,20 +237,33 @@ let createBookElement = function(thisBook) {
 window.sortBookElements = function() {
     let booksToSort = bookSection.children;
     booksToSort = Array.prototype.slice.call(booksToSort);
-    if (sortOption == 'title') {
-        booksToSort.sort(function(a, b) {
-            if (a.children[1].children[0].innerHTML > b.children[1].children[0].innerHTML) {
-                return -1
-            } else {
-                return 1
-            };
-        });
-        bookSection.innerHTML = '';
-        for (let i = 0; i < booksToSort.length; i++) {
-            bookSection.append(booksToSort[i]);
+    let sortReturn = null;
+    if (sortDirection == 'asc') {
+        sortReturn = 1;
+    } else {
+        sortReturn = -1;
+    };
+    let sortIndex = sortChildrenIndex[sortOption]
+    booksToSort.sort(function(a, b) {
+        let currentElement, nextElement = null;
+        if (sortIndex != 2) {
+            currentElement = a.children[1].children[sortIndex].innerHTML;
+            nextElement = b.children[1].children[sortIndex].innerHTML;
+        } else {
+            currentElement = Number(a.children[1].children[sortIndex].innerHTML.slice(8, -6));
+            nextElement = Number(b.children[1].children[sortIndex].innerHTML.slice(8, -6));
         };
-    }; 
-};
+        if (currentElement > nextElement) {
+            return sortReturn;
+        } else {
+            return -(sortReturn);
+        };
+    });
+    bookSection.innerHTML = '';
+    for (let i = 0; i < booksToSort.length; i++) {
+        bookSection.append(booksToSort[i]);
+    };
+}; 
 
 // Form Submission Function
 
