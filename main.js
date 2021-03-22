@@ -5,9 +5,16 @@ window.addEventListener("DOMContentLoaded", pop.init());
 
 // Inital Variables
 
-let toggleButtonCounter = 0;
-let bookIdCounter = 0;
-let myLibrary = [];
+// let toggleButtonCounter = 0;
+window.toggleButtonCounter = 0;
+// let bookIdCounter = 0;
+window.bookIdCounter = 0;
+// let myLibrary = [];
+window.myLibrary = [];
+// let sortOption = 'title';
+window.sortOption = 'title';
+// let sortDirection = 'asc';
+window.sortDirection = 'asc';
 
 // HTML Element for book section
 
@@ -128,14 +135,25 @@ let Book = function(title, author, pages, language, read) {
     this.read = read;
     this.id = bookIdCounter;
     bookIdCounter += 1;
+    this.toggleId = toggleButtonCounter;
+    toggleButtonCounter += 1;
+    // Add object to book library array
+    myLibrary.push(this);
+    // Create new book element
+    createBookElement(this);
+};
+
+// New Book Element Function
+
+let createBookElement = function(thisBook) {
     // Create book element
-    this.block = document.createElement('div');
-    if (this.read == true) {
-        this.block.className = 'book-read';
+    thisBook.block = document.createElement('div');
+    if (thisBook.read == true) {
+        thisBook.block.className = 'book-read';
     } else {
-        this.block.className = 'book-unread';
+        thisBook.block.className = 'book-unread';
     };
-    this.block.id = this.id;
+    thisBook.block.id = thisBook.id;
     // Create x-button child element
     let xButton = document.createElement('div');
     xButton.className = 'x-button';
@@ -146,13 +164,13 @@ let Book = function(title, author, pages, language, read) {
     bookContents.className = 'book-contents';
     // Create child elements for book-contents
     let bookTitle = document.createElement('h2');
-    bookTitle.innerText = this.title;
+    bookTitle.innerText = thisBook.title;
     let bookAuthor = document.createElement('p');
-    bookAuthor.innerText = `By: ${this.author}`;
+    bookAuthor.innerText = `By: ${thisBook.author}`;
     let bookPages = document.createElement('p');
-    bookPages.innerText = `Length: ${this.pages} Pages`;
+    bookPages.innerText = `Length: ${thisBook.pages} Pages`;
     let bookLanguage = document.createElement('p');
-    bookLanguage.innerText = `Language: ${this.language}`;
+    bookLanguage.innerText = `Language: ${thisBook.language}`;
     // Add book-contents child elements to book-contents
     bookContents.appendChild(bookTitle);
     bookContents.appendChild(bookAuthor);
@@ -164,7 +182,7 @@ let Book = function(title, author, pages, language, read) {
     // Create read-status child element for read-or-not
     let readStatus = document.createElement('p');
     readStatus.className = 'read-status';
-    if (this.read == true) {
+    if (thisBook.read == true) {
         readStatus.innerText = 'Mark As Unread';
     } else {
         readStatus.innerText = 'Mark As Read';
@@ -172,10 +190,9 @@ let Book = function(title, author, pages, language, read) {
     // Create input child element for read-or-not
     let toggleButtonInput = document.createElement('INPUT');
     toggleButtonInput.setAttribute('type', 'checkbox');
-    toggleButtonInput.id = `switch${toggleButtonCounter.toString()}`;
-    toggleButtonCounter += 1;
+    toggleButtonInput.id = `switch${thisBook.toggleId.toString()}`;
     toggleButtonInput.className = 'read-input toggle-input';
-    if (this.read == true) {
+    if (thisBook.read == true) {
         toggleButtonInput.checked = true;
     } else {
         toggleButtonInput.checked = false;
@@ -192,16 +209,13 @@ let Book = function(title, author, pages, language, read) {
     readOrNotRead.appendChild(toggleButtonInput);
     readOrNotRead.appendChild(toggleButtonLabel);
     // Add book child elements to book element
-    this.block.appendChild(xButton);
-    this.block.appendChild(bookContents);
-    this.block.appendChild(readOrNotRead);
+    thisBook.block.appendChild(xButton);
+    thisBook.block.appendChild(bookContents);
+    thisBook.block.appendChild(readOrNotRead);
     // Add book element to book section parent element
-    bookSection.appendChild(this.block);
-    // Add object to book library array
-    myLibrary.push(this);
-    console.log(myLibrary);
+    bookSection.appendChild(thisBook.block);
     // Update book stats
-    if (this.read == true) {
+    if (thisBook.read == true) {
         booksRead.innerText = (1 + Number(booksRead.innerText)).toString();
     } else {
         booksNotRead.innerText = (1 + Number(booksNotRead.innerText)).toString();
@@ -229,6 +243,6 @@ pop.pSubmit.addEventListener('click', newBookFromForm);
 
 // Initialize Sample Book Instanes
 
-let book0 = new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
-let book1 = new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
-let book2 = new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
+new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
+new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
+new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
