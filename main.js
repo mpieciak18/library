@@ -9,8 +9,7 @@ window.toggleButtonCounter = 0;
 window.bookIdCounter = 0;
 // let myLibrary = [];
 window.myLibrary = [];
-// let sortOption = 'title';
-window.sortOption = 'title';
+
 // sortChildrenIndex = {
 //     'title': 0,
 //     'author': 1,
@@ -23,8 +22,6 @@ window.sortChildrenIndex = {
     'length': 2,
     'language': 3
 };
-// let sortDirection = 'asc';
-window.sortDirection = 'asc';
 
 // HTML Element for book section
 let bookSection = document.getElementById('book-section');
@@ -36,7 +33,9 @@ let booksTotal = document.getElementById('books-total');
 
 // HTML Elements for Sorting
 let sortByDropdown = document.getElementById('sort-by');
+let sortByValue = sortByDropdown.value;
 let ascDescDropdown = document.getElementById('asc-desc');
+let ascDescValue = ascDescDropdown.value;
 
 // HTML Elements for Dark Mode
 let darkModeButton = document.getElementById('dark-mode-button');
@@ -147,6 +146,8 @@ let Book = function(title, author, pages, language, read) {
     myLibrary.push(this);
     // Create new book element
     createBookElement(this);
+    // Sort all book elements
+    sortBookElements();
 };
 
 // New Book Element Function
@@ -233,12 +234,12 @@ let sortBookElements = function() {
     let booksToSort = bookSection.children;
     booksToSort = Array.prototype.slice.call(booksToSort);
     let sortReturn = null;
-    if (sortDirection == 'ascending') {
+    if (ascDescValue == 'ascending') {
         sortReturn = 1;
     } else {
         sortReturn = -1;
     };
-    let sortIndex = sortChildrenIndex[sortOption]
+    let sortIndex = sortChildrenIndex[sortByValue]
     booksToSort.sort(function(a, b) {
         let currentElement, nextElement = null;
         if (sortIndex != 2) {
@@ -272,11 +273,11 @@ let newBookFromForm = function(event) {
 };
 
 let sortByChange = function(event) {
-    sortOption = event.target.value;
+    sortByValue = event.target.value;
     sortBookElements();
 };
 let ascDescChange = function(event) {
-    sortDirection = event.target.value;
+    ascDescValue = event.target.value;
     sortBookElements();
 }
 
