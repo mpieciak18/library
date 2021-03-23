@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", pop.init());
 let toggleButtonCounter = 0;
 let bookIdCounter = 0;
 let myLibrary = [];
-let sortChildrenIndex = {
+const sortChildrenIndex = {
     'title': 0,
     'author': 1,
     'length': 2,
@@ -40,9 +40,10 @@ let bookBlocks = bookSection.children;
 let popupButton = document.getElementById('popup-button');
 let navSection = document.getElementById('nav-section');
 let favicon = document.getElementById('favicon');
+let popupBox = document.getElementById('pop-box');
 
 // Dark Mode Function
-let changeDarkMode = function(event) {
+const changeDarkMode = function(event) {
     if (event.target.checked) {
         pageTitle.style.color = '#c4e5f3';
         pageLogo.src = 'images/logo-2.svg';
@@ -58,6 +59,10 @@ let changeDarkMode = function(event) {
         for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'rgb(10, 10, 10) 2px 2px 5px 1px';
         };
+        popupBox.style.backgroundColor = 'rgb(35, 35, 35)';
+        for (let i = 0; i < popupBox.children.length; i++) {
+            popupBox.children[i].style.color = '#c4e5f3';
+        };
     } else {
         pageTitle.style.color = '#164460';
         pageLogo.src = 'images/logo.svg';
@@ -72,6 +77,10 @@ let changeDarkMode = function(event) {
         navSection.style.color = '#164460';
         for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'grey 2px 2px 5px 1px';
+        };
+        popupBox.style.backgroundColor = 'white';
+        for (let i = 0; i < popupBox.children.length; i++) {
+            popupBox.children[i].style.color = '#164460';
         };
     };
 };
