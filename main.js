@@ -3,20 +3,10 @@ import { pop } from './modules/popup.js';
 window.addEventListener("DOMContentLoaded", pop.init());
 
 // Inital Variables
-// let toggleButtonCounter = 0;
-window.toggleButtonCounter = 0;
-// let bookIdCounter = 0;
-window.bookIdCounter = 0;
-// let myLibrary = [];
-window.myLibrary = [];
-
-// sortChildrenIndex = {
-//     'title': 0,
-//     'author': 1,
-//     'length': 2,
-//     'language': 3
-// };
-window.sortChildrenIndex = {
+let toggleButtonCounter = 0;
+let bookIdCounter = 0;
+let myLibrary = [];
+let sortChildrenIndex = {
     'title': 0,
     'author': 1,
     'length': 2,
@@ -169,7 +159,8 @@ let createBookElement = function(thisBook) {
     let bookContents = document.createElement('div');
     bookContents.className = 'book-contents';
     // Create child elements for book-contents
-    let bookTitle = document.createElement('h2');
+    let bookTitle = document.createElement('h3');
+    bookTitle.className = 'book-title';
     bookTitle.innerText = thisBook.title;
     let bookAuthor = document.createElement('p');
     bookAuthor.innerText = `By: ${thisBook.author}`;

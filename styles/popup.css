@@ -25,6 +25,7 @@
     padding-right: 20px;
     padding-bottom: 20px;
     transform: translateY(-50%);
+    border-radius: 5px;
   }
   #pop-box > * {
     font-family: 'PT Sans', sans-serif;
