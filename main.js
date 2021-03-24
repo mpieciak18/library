@@ -14,33 +14,33 @@ const sortChildrenIndex = {
 };
 
 // HTML Element for book section
-let bookSection = document.getElementById('book-section');
+const bookSection = document.getElementById('book-section');
 
 // HTML Elements for Book Counter
-let booksRead = document.getElementById('books-read');
-let booksNotRead = document.getElementById('books-not-read');
-let booksTotal = document.getElementById('books-total');
+const booksRead = document.getElementById('books-read');
+const booksNotRead = document.getElementById('books-not-read');
+const booksTotal = document.getElementById('books-total');
 
 // HTML Elements for Sorting
-let sortByDropdown = document.getElementById('sort-by');
-let sortByValue = sortByDropdown.value;
-let ascDescDropdown = document.getElementById('asc-desc');
-let ascDescValue = ascDescDropdown.value;
+const sortByDropdown = document.getElementById('sort-by');
+const sortByValue = sortByDropdown.value;
+const ascDescDropdown = document.getElementById('asc-desc');
+const ascDescValue = ascDescDropdown.value;
 
 // HTML Elements for Dark Mode
-let darkModeButton = document.getElementById('dark-mode-button');
-let pageTitle = document.getElementById('title');
-let pageLogo = document.getElementById('logo');
-let libLog = document.getElementById('lib-log');
-let libLogTitle = document.getElementById('lib-log-title');
-let libLogStats = document.getElementById('lib-log-stats');
-let darkModeText = document.getElementById('dark-mode');
-let pageBody = document.body;
-let bookBlocks = bookSection.children;
-let popupButton = document.getElementById('popup-button');
-let navSection = document.getElementById('nav-section');
-let favicon = document.getElementById('favicon');
-let popupBox = document.getElementById('pop-box');
+const darkModeButton = document.getElementById('dark-mode-button');
+const pageTitle = document.getElementById('title');
+const pageLogo = document.getElementById('logo');
+const libLog = document.getElementById('lib-log');
+const libLogTitle = document.getElementById('lib-log-title');
+const libLogStats = document.getElementById('lib-log-stats');
+const darkModeText = document.getElementById('dark-mode');
+const pageBody = document.body;
+const bookBlocks = bookSection.children;
+const popupButton = document.getElementById('popup-button');
+const navSection = document.getElementById('nav-section');
+const favicon = document.getElementById('favicon');
+const popupBox = document.getElementById('pop-box');
 
 // Dark Mode Function
 const changeDarkMode = function(event) {
@@ -86,7 +86,7 @@ const changeDarkMode = function(event) {
 };
 
 // Return Book Object by Element ID Function
-let findThisBook = function(elementId) {
+const findThisBook = function(elementId) {
     return myLibrary.find(function(book) {
         if (book.id == Number(elementId)) {
             return true;
@@ -95,7 +95,7 @@ let findThisBook = function(elementId) {
 };
 
 // Toggle Button Function
-let changeReadStatus = function(event) {
+const changeReadStatus = function(event) {
     let bookItself = event.target.parentNode.parentNode;
     let toggleText = event.target.previousSibling;
     let bookObject = findThisBook(bookItself.id);
@@ -115,7 +115,7 @@ let changeReadStatus = function(event) {
 };
 
 // X Button Function
-let deleteBookEntry = function(event) {
+const deleteBookEntry = function(event) {
     let bookElement = event.target.parentNode;
     let bookObject = findThisBook(bookElement.id);
     let indexOfObject = myLibrary.indexOf(bookObject);
@@ -150,7 +150,7 @@ let Book = function(title, author, pages, language, read) {
 };
 
 // New Book Element Function
-let createBookElement = function(thisBook) {
+const createBookElement = function(thisBook) {
     // Create book element
     thisBook.block = document.createElement('div');
     if (thisBook.read == true) {
@@ -230,7 +230,7 @@ let createBookElement = function(thisBook) {
 };
 
 // Sort Book Elements Function
-let sortBookElements = function() {
+const sortBookElements = function() {
     let booksToSort = bookSection.children;
     booksToSort = Array.prototype.slice.call(booksToSort);
     let sortReturn = null;
@@ -262,7 +262,7 @@ let sortBookElements = function() {
 }; 
 
 // Form Submission Function
-let newBookFromForm = function(event) {
+const newBookFromForm = function(event) {
     let title = event.target.parentNode[0].value;
     let author = event.target.parentNode[1].value;
     let pages = event.target.parentNode[2].value;
@@ -272,11 +272,11 @@ let newBookFromForm = function(event) {
     pop.close();
 };
 
-let sortByChange = function(event) {
+const sortByChange = function(event) {
     sortByValue = event.target.value;
     sortBookElements();
 };
-let ascDescChange = function(event) {
+const ascDescChange = function(event) {
     ascDescValue = event.target.value;
     sortBookElements();
 }

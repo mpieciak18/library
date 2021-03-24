@@ -1,4 +1,4 @@
-let pop = {
+const pop = {
 
   // (A) ATTACH POPUP HTML
   init : function () {
