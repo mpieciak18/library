@@ -2,6 +2,14 @@
 import { pop } from './modules/popup.js';
 window.addEventListener("DOMContentLoaded", pop.init());
 
+// Initiliaze Local Storage Functions
+Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+}
+Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
+}
+
 // Inital Variables
 let toggleButtonCounter = 0;
 let bookIdCounter = 0;
@@ -126,11 +134,12 @@ const deleteBookEntry = function(event) {
     }; 
     booksTotal.innerText = (-1 + Number(booksTotal.innerText)).toString();
     myLibrary.splice(indexOfObject, 1);
+    localStorage.setObj(0, myLibrary);
     bookElement.remove();
 };
 
 // Book Constructor
-let Book = function(title, author, pages, language, read) {
+const Book = function(title, author, pages, language, read) {
     // Initialize object properties
     this.title = title;
     this.author = author;
@@ -143,6 +152,7 @@ let Book = function(title, author, pages, language, read) {
     toggleButtonCounter += 1;
     // Add object to book library array
     myLibrary.push(this);
+    localStorage.setObj(0, myLibrary);
     // Create new book element
     createBookElement(this);
     // Sort all book elements
@@ -288,7 +298,15 @@ pop.pSubmit.addEventListener('click', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
 
-// Initialize Sample Book Instanes
-new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
-new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
-new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
+// Initialize Book Instances
+if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
+    console.log(localStorage.getObj(0));
+    let newLib = localStorage.getObj(0);
+    for (let i = 0; i < newLib.length; i++) {
+        new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
+      };
+} else {
+    new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
+    new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
+    new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
+};

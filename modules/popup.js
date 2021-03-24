@@ -1,4 +1,4 @@
-const pop = {
+let pop = {
 
   // (A) ATTACH POPUP HTML
   init : function () {
@@ -21,7 +21,8 @@ const pop = {
     // (A4) CREATE FORM
     pop.pForm = document.createElement("form");
     pop.pForm.action = "";
-    pop.pForm.method = "get";
+    pop.pForm.method = "";
+    pop.pForm.setAttribute('autocomplete', 'off');
 
     // (A5) FORM FIELD ONE (TITLE)
     pop.pLabelOne = document.createElement("LABEL");
@@ -35,6 +36,8 @@ const pop = {
     pop.pInputOne.name = "input-one";
     pop.pInputOne.placeholder = 'Enter the book\'s title';
     pop.pInputOne.setAttribute("type", "text");
+    pop.pInputOne.setAttribute("minlength", "1");
+    pop.pInputOne.setAttribute('required', 'true')
     pop.pForm.appendChild(pop.pInputOne);
 
     // (A6) FORM FIELD TWO (AUTHOR)
@@ -49,6 +52,8 @@ const pop = {
     pop.pInputTwo.name = "input-two";
     pop.pInputTwo.placeholder = 'Enter the book\'s author';
     pop.pInputTwo.setAttribute("type", "text");
+    pop.pInputTwo.setAttribute("minlength", "1");
+    pop.pInputTwo.setAttribute('required', 'true');
     pop.pForm.appendChild(pop.pInputTwo);
 
     // (A7) FORM FIELD THREE (LENGTH)
@@ -58,11 +63,13 @@ const pop = {
     pop.pLabelThree.innerHTML = "Total Pages:"
     pop.pForm.appendChild(pop.pLabelThree);
     pop.pInputThree = document.createElement("INPUT");
+    pop.pInputThree.setAttribute("type", "number");
     pop.pInputThree.classList = "pop-inputs";
     pop.pInputThree.id = "input-three";
     pop.pInputThree.name = "input-three";
     pop.pInputThree.placeholder = 'Enter the book\'s total pages';
-    pop.pInputThree.setAttribute("type", "text");
+    pop.pInputThree.setAttribute('required', 'true');
+    pop.pInputThree.setAttribute("minlength", "1");
     pop.pForm.appendChild(pop.pInputThree);
 
     // (A8) FORM FIELD FOUR (LANGUAGE)
@@ -77,6 +84,8 @@ const pop = {
     pop.pInputFour.name = "input-four";
     pop.pInputFour.placeholder = 'Enter the book\'s language';
     pop.pInputFour.setAttribute("type", "text");
+    pop.pInputFour.setAttribute('required', 'true')
+    pop.pInputFour.setAttribute("minlength", "1");
     pop.pForm.appendChild(pop.pInputFour);
 
     // (A9) FORM RADIO OPTIONS (READ/UNREAD)
@@ -110,10 +119,10 @@ const pop = {
     pop.pForm.appendChild(pop.pRadioBox);
 
      // (A10) FORM SUBMIT BUTTON
-     pop.pSubmit = document.createElement("INPUT");
+     pop.pSubmit = document.createElement("BUTTON");
      pop.pSubmit.id = "button";
-     pop.pSubmit.value = 'Add New Book';
-     pop.pSubmit.setAttribute("type", "button");
+     pop.pSubmit.innerText = 'Add New Book';
+     pop.pSubmit.setAttribute("type", "submit");
      pop.pForm.appendChild(pop.pSubmit);
 
     // (A11) APPEND FORM TO BOX
