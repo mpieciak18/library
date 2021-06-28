@@ -279,7 +279,7 @@ body {
 }
 @-moz-document url-prefix() {
     .read-status {
-        margin-right: -15px;
+        margin-right: -5px;
     }
 }
 #popup-button {
