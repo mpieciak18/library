@@ -273,11 +273,12 @@ const sortBookElements = function() {
 
 // Form Submission Function
 const newBookFromForm = function(event) {
-    let title = event.target.parentNode[0].value;
-    let author = event.target.parentNode[1].value;
-    let pages = event.target.parentNode[2].value;
-    let language = event.target.parentNode[3].value;
-    let read = event.target.parentNode[4].checked;
+    event.preventDefault();
+    let title = document.getElementById('input-one').value;
+    let author = document.getElementById('input-two').value;
+    let pages = document.getElementById('input-three').value;
+    let language = document.getElementById('input-four').value;
+    let read = document.getElementById('input-five').checked;
     new Book(title, author, pages, language, read);
     pop.close();
 };
@@ -294,13 +295,13 @@ const ascDescChange = function(event) {
 // Event Listeners
 darkModeButton.addEventListener('click', changeDarkMode);
 popupButton.firstChild.addEventListener('click', pop.open);
-pop.pSubmit.addEventListener('click', newBookFromForm);
+// pop.pSubmit.addEventListener('click', newBookFromForm);
+pop.pForm.addEventListener('submit', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
 
 // Initialize Book Instances
 if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
-    console.log(localStorage.getObj(0));
     let newLib = localStorage.getObj(0);
     for (let i = 0; i < newLib.length; i++) {
         new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
