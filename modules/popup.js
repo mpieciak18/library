@@ -20,8 +20,8 @@ let pop = {
 
     // (A4) CREATE FORM
     pop.pForm = document.createElement("form");
-    pop.pForm.action = "";
-    pop.pForm.method = "";
+    pop.pForm.action = "/";
+    pop.pForm.method = "get";
     pop.pForm.setAttribute('autocomplete', 'off');
 
     // (A5) FORM FIELD ONE (TITLE)
@@ -37,7 +37,7 @@ let pop = {
     pop.pInputOne.placeholder = 'Enter the book\'s title';
     pop.pInputOne.setAttribute("type", "text");
     pop.pInputOne.setAttribute("minlength", "1");
-    pop.pInputOne.setAttribute('required', 'true')
+    pop.pInputOne.required = true;
     pop.pForm.appendChild(pop.pInputOne);
 
     // (A6) FORM FIELD TWO (AUTHOR)
@@ -47,6 +47,7 @@ let pop = {
     pop.pLabelTwo.innerHTML = "Author:"
     pop.pForm.appendChild(pop.pLabelTwo);
     pop.pInputTwo = document.createElement("INPUT");
+    pop.pInputTwo.required = true;
     pop.pInputTwo.classList = "pop-inputs";
     pop.pInputTwo.id = "input-two";
     pop.pInputTwo.name = "input-two";
@@ -63,6 +64,7 @@ let pop = {
     pop.pLabelThree.innerHTML = "Total Pages:"
     pop.pForm.appendChild(pop.pLabelThree);
     pop.pInputThree = document.createElement("INPUT");
+    pop.pInputThree.required = true;
     pop.pInputThree.setAttribute("type", "number");
     pop.pInputThree.classList = "pop-inputs";
     pop.pInputThree.id = "input-three";
@@ -79,6 +81,7 @@ let pop = {
     pop.pLabelFour.innerHTML = "Language:"
     pop.pForm.appendChild(pop.pLabelFour);
     pop.pInputFour = document.createElement("INPUT");
+    pop.pInputFour.required = true;
     pop.pInputFour.classList = "pop-inputs";
     pop.pInputFour.id = "input-four";
     pop.pInputFour.name = "input-four";
