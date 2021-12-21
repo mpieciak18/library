@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link href='../src/styles/app.css' rel='stylesheet'>
+    <link href='../src/styles/popup.css' rel='stylesheet'>
+    <title>Library</title>
+    <link id='favicon' rel='shortcut icon' type='image/svg' href='images/logo.svg'>
+</head>
+<html>
+    <body>
+        <div id='top-section'>
+            <div id='top-left'>
+                <img id='logo' src="images/logo.svg">
+                <p id='title'>My Library</p>
+            </div>
+            <div id='top-right'>
+                <div id='lib-log'>
+                    <p id='lib-log-title'>Library Log</p>
+                    <div id='lib-log-stats'>
+                        <div class='lib-log-stat'>
+                            <p>Books Read:</p>
+                            <p id='books-read'>0</p>
+                        </div>
+                        <div class='lib-log-stat'>
+                            <p>Books Not Read:</p>
+                            <p id='books-not-read'>0</p>
+                        </div>
+                        <div class='lib-log-stat'>
+                            <p>Total Books:</p>
+                            <p id='books-total'>0</p>
+                        </div>
+                    </div>
+                </div>
+                <div id='dark-mode'>
+                    <p>Dark Mode:</p>
+                    <input type="checkbox" id="dark-mode-button" class="toggle-input" />
+                    <label class="dark-mode-button toggle-label" for="dark-mode-button">Toggle</label>
+                </div>
+            </div>
+        </div>
+        <div id='nav-section'>
+            <div id='nav-left'>
+                <p>Order By:</p>
+                <div>
+                    <select name='sort-by' id='sort-by'>
+                        <option value='title'>Title</option>
+                        <option value='author'>Author</option>
+                        <option value='length'>Length</option>
+                        <option value='language'>Language</option>
+                    </select>
+                </div>
+                <div>
+                    <select name='asc-desc' id='asc-desc'>
+                        <option value='ascending'>Ascending</option>
+                        <option value='descending'>Descending</option>
+                    </select>
+                </div>
+            </div>
+            <div id='nav-right'>
+                <p>Read:</p>
+                <div id='read-box'></div>
+                <p>Not Read:</p>
+                <div id='not-read-box'></div>
+            </div>
+        </div>
+        <div id='book-section'></div>
+        <div id="popup-button"><p>+</p></div>
+    </body>
+    <script src='main.js' type='module'></script>
+</html>
