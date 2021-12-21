@@ -295,7 +295,6 @@ const ascDescChange = function(event) {
 // Event Listeners
 darkModeButton.addEventListener('click', changeDarkMode);
 popupButton.firstChild.addEventListener('click', pop.open);
-// pop.pSubmit.addEventListener('click', newBookFromForm);
 pop.pForm.addEventListener('submit', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
