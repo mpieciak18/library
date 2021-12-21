@@ -1,6 +1,15 @@
-// Import Pop-Up Module & Create Element
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {  } from 'firebase/firestore';
+
+// Import Pop-Up, Register, & Login Modules, Then Create Elements
 import { pop } from './modules/popup.js';
 window.addEventListener("DOMContentLoaded", pop.init());
+import { register } from './modules/register.js';
+window.addEventListener("DOMContentLoaded", register.init());
+import { login } from './modules/login.js';
+window.addEventListener("DOMContentLoaded", login.init());
 
 // Initiliaze Local Storage Functions
 Storage.prototype.setObj = function(key, obj) {
@@ -10,7 +19,7 @@ Storage.prototype.getObj = function(key) {
     return JSON.parse(this.getItem(key))
 }
 
-// Inital Variables
+// Initial Variables
 let toggleButtonCounter = 0;
 let bookIdCounter = 0;
 let myLibrary = [];
@@ -20,6 +29,10 @@ const sortChildrenIndex = {
     'length': 2,
     'language': 3
 };
+
+// HTML Elements for authentication
+const registerButton = document.getElementById('register-button');
+const loginButton = document.getElementById('login-button')
 
 // HTML Element for book section
 const bookSection = document.getElementById('book-section');
@@ -293,6 +306,8 @@ const ascDescChange = function(event) {
 }
 
 // Event Listeners
+registerButton.addEventListener('click', register.open);
+loginButton.addEventListener('click', login.open);
 darkModeButton.addEventListener('click', changeDarkMode);
 popupButton.firstChild.addEventListener('click', pop.open);
 pop.pForm.addEventListener('submit', newBookFromForm);
@@ -310,3 +325,16 @@ if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
     new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
     new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
 };
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyD27BaorWNp_7HTAcFpfcQJEU2k6O75HpU",
+  authDomain: "library-92910.firebaseapp.com",
+  projectId: "library-92910",
+  storageBucket: "library-92910.appspot.com",
+  messagingSenderId: "778596230620",
+  appId: "1:778596230620:web:031ba101402eb1b8185b19"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);

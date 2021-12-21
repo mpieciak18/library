@@ -8,6 +8,5 @@ module.exports = {
     },
     optimization: {
         minimize: false
-    },
-    publicPath: '/library/'
+    }
 };

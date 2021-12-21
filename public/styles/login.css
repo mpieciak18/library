@@ -1,0 +1,65 @@
+/* (A) WRAPPER */
+#login {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  #login.open {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  /* (B) BOX */
+  #login-box {
+    position: relative;
+    max-width: 400px;
+    background: white;
+    margin: 50vh auto 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    transform: translateY(-50%);
+    border-radius: 5px;
+  }
+  #login-box > * {
+    font-family: 'PT Sans', sans-serif;
+    color: #164460;
+  }
+  
+  /* (C) TITLE */
+  #login-title {
+    padding: 10px;
+    margin: 0;
+    font-family: 'PT Sans Narrow', sans-serif;
+  }
+  
+  /* (D) FORM */
+  .login-labels {
+    display: block;
+  }
+
+  .login-inputs {
+    display: block;
+    width: 96.66%;
+    height: 30px;
+    margin-bottom: 10px;
+    font-size: small;
+  }
+
+  #login-submit {
+    font-size: medium;
+  }
+  
+  /* (E) CLOSE BUTTON */
+  #login-close {
+    position: absolute;
+    top: 0; right: 5px;
+    padding: 5px;
+    cursor: pointer;
+  }
