@@ -50,7 +50,7 @@ let register = {
         register.pInputTwo.id = "register-input-two";
         register.pInputTwo.name = "register-input-two";
         register.pInputTwo.placeholder = 'Enter your desired password';
-        register.pInputTwo.setAttribute("type", "text");
+        register.pInputTwo.setAttribute("type", "password");
         register.pInputTwo.setAttribute("minlength", "1");
         register.pInputTwo.setAttribute('required', 'true');
         register.pForm.appendChild(register.pInputTwo);

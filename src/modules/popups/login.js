@@ -50,7 +50,7 @@ let login = {
         login.pInputTwo.id = "login-input-two";
         login.pInputTwo.name = "login-input-two";
         login.pInputTwo.placeholder = 'Enter your password:';
-        login.pInputTwo.setAttribute("type", "text");
+        login.pInputTwo.setAttribute("type", "password");
         login.pInputTwo.setAttribute('minlength', '1')
         login.pInputTwo.setAttribute('required', 'true');
         login.pForm.appendChild(login.pInputTwo);
