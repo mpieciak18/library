@@ -25,12 +25,15 @@ body {
         justify-content: space-between;
         margin-bottom: 20px;
     }
-    #top-left-bottom > * {
+    #top-left-bottom.logged-out > *, #top-left-bottom > #logout-button {
         background-color: rgb(240, 240, 240);
         padding: 5px 10px;
         font-size: medium;
         border-radius: 5px;
         transition: 0.25s;
+    }
+    #logout-button {
+        margin-top: 10px;
     }
     #nav-section {
         display: flex;
@@ -103,12 +106,15 @@ body {
     #top-left-bottom {
         justify-content: space-between;
     }
-    #top-left-bottom > * {
+    #top-left-bottom.logged-out > *, #top-left-bottom > #logout-button {
         background-color: rgb(240, 240, 240);
         padding: 5px 30px;
         font-size: large;
         border-radius: 5px;
         transition: 0.25s;
+    }
+    #logout-button {
+        margin-top: 20px;
     }
     #nav-section {
         display: flex;
@@ -173,18 +179,24 @@ body {
     justify-content: center;
     align-items: center;
 }
-#top-left-bottom {
+#top-left-bottom.logged-out {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
 }
-#top-left-bottom > *:hover {
+#top-left-bottom.logged-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+#top-left-bottom.logged-out > *:hover, #top-left-bottom > #logout-button:hover {
     cursor: pointer;
     transform: scale(1.05);
     background-color: rgb(230, 230, 230);
 }
-#top-left-bottom > *:active {
+#top-left-bottom.logged-out > *:active, #top-left-bottom > #logout-button:active {
     cursor: pointer;
     transform: scale(1.1);
     background-color: rgb(220, 220, 220);

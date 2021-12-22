@@ -12787,6 +12787,7 @@ const createUser = async (auth, email, password) => {
     }
 }
 
+// Sign in user
 const signinUser = async (auth, email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
@@ -12795,6 +12796,46 @@ const signinUser = async (auth, email, password) => {
     } catch(error) {
         const errorCode = error.code;
         const errorMessage = error.message;
+    }
+}
+
+
+;// CONCATENATED MODULE: ./src/modules/components/loginMenu.js
+const renderLoginMenu = (loginStatus, menuPartOne, menuPartTwo) => {
+    const topLeftBottom = document.getElementById('top-left-bottom')
+    topLeftBottom.innerHTML = ''
+    if (loginStatus == false) {
+        // Set class for parent div
+        topLeftBottom.classList = 'logged-out'
+        // Create login button
+        const login = document.createElement('div')
+        login.innerText = 'Sign In'
+        login.id = 'login-button'
+        login.addEventListener('click', menuPartOne)
+        // Create register button
+        const register = document.createElement('div')
+        register.innerText = 'Register'
+        register.id = 'register-button'
+        register.addEventListener('click', menuPartTwo)
+        // Append buttons to parent div
+        topLeftBottom.append(login)
+        topLeftBottom.append(register)
+    } else {
+        // Set class for parent div
+        topLeftBottom.classList = 'logged-in'
+        // Create welcome message
+        const welcome = document.createElement('div')
+        welcome.innerText = `Welcome, ${menuPartOne}!`
+        welcome.id = 'welcome-message'
+        // Create logout button
+        const logout = document.createElement('div')
+        logout.innerText = 'Sign Out'
+        logout.id = 'logout-button'
+        logout.addEventListener('click', () => menuPartTwo())
+        // Append buttons to parent div
+        console.log (welcome, logout)
+        topLeftBottom.append(welcome)
+        topLeftBottom.append(logout)
     }
 }
 
@@ -31093,16 +31134,29 @@ let login = {
 
 
 
+
 // Create auth from Firebase
-const auth = getAuth();
+const auth = getAuth()
 
 // Import Entry, Register, & Login Pop-Up Modules, Then Create Elements
-
+;
 window.addEventListener("DOMContentLoaded", entry.init());
 
 window.addEventListener("DOMContentLoaded", register.init());
 
 window.addEventListener("DOMContentLoaded", login.init());
+
+// Attach auth state change listener, which updates login menu area
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        console.log(true)
+        console.log(user.email)
+        renderLoginMenu(true, user.email, () => auth.signOut())
+    } else {
+        console.log(false)
+        renderLoginMenu(false, login.open, register.open)
+    }
+})
 
 // Pass registration form submission values to createUser
 const newRegistration = (event) => {
@@ -31140,10 +31194,6 @@ const sortChildrenIndex = {
     'length': 2,
     'language': 3
 };
-
-// HTML Elements for authentication
-const registerButton = document.getElementById('register-button');
-const loginButton = document.getElementById('login-button')
 
 // HTML Element for book section
 const bookSection = document.getElementById('book-section');
@@ -31417,9 +31467,7 @@ const ascDescChange = function(event) {
 }
 
 // Event Listeners
-registerButton.addEventListener('click', register.open);
 register.pForm.addEventListener('submit', newRegistration)
-loginButton.addEventListener('click', login.open);
 login.pForm.addEventListener('submit', newLogin)
 darkModeButton.addEventListener('click', changeDarkMode);
 entryButton.firstChild.addEventListener('click', entry.open);

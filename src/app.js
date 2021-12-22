@@ -1,11 +1,12 @@
 // Import Firebase functions
 import { firebaseApp } from './modules/firebase/initFirebase.js';
 import { createUser, signinUser } from './modules/firebase/auth.js';
+import { renderLoginMenu } from './modules/components/loginMenu.js';
 import { getAuth } from 'firebase/auth';
 import {  } from 'firebase/firestore';
 
 // Create auth from Firebase
-const auth = getAuth();
+const auth = getAuth()
 
 // Import Entry, Register, & Login Pop-Up Modules, Then Create Elements
 import { entry } from './modules/popups/entry.js';
@@ -14,6 +15,18 @@ import { register } from './modules/popups/register.js';
 window.addEventListener("DOMContentLoaded", register.init());
 import { login } from './modules/popups/login.js';
 window.addEventListener("DOMContentLoaded", login.init());
+
+// Attach auth state change listener, which updates login menu area
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        console.log(true)
+        console.log(user.email)
+        renderLoginMenu(true, user.email, () => auth.signOut())
+    } else {
+        console.log(false)
+        renderLoginMenu(false, login.open, register.open)
+    }
+})
 
 // Pass registration form submission values to createUser
 const newRegistration = (event) => {
@@ -51,10 +64,6 @@ const sortChildrenIndex = {
     'length': 2,
     'language': 3
 };
-
-// HTML Elements for authentication
-const registerButton = document.getElementById('register-button');
-const loginButton = document.getElementById('login-button')
 
 // HTML Element for book section
 const bookSection = document.getElementById('book-section');
@@ -328,9 +337,7 @@ const ascDescChange = function(event) {
 }
 
 // Event Listeners
-registerButton.addEventListener('click', register.open);
 register.pForm.addEventListener('submit', newRegistration)
-loginButton.addEventListener('click', login.open);
 login.pForm.addEventListener('submit', newLogin)
 darkModeButton.addEventListener('click', changeDarkMode);
 entryButton.firstChild.addEventListener('click', entry.open);

@@ -16,6 +16,7 @@ const createUser = async (auth, email, password) => {
     }
 }
 
+// Sign in user
 const signinUser = async (auth, email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
