@@ -1017,7 +1017,7 @@ function safeGet(obj, key) {
         return undefined;
     }
 }
-function index_esm2017_isEmpty(obj) {
+function isEmpty(obj) {
     for (const key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
             return false;
@@ -2942,7 +2942,7 @@ class FirebaseAppImpl {
  *
  * @public
  */
-const index_esm2017_SDK_VERSION = version;
+const SDK_VERSION = version;
 function initializeApp(options, rawConfig = {}) {
     if (typeof rawConfig !== 'object') {
         const name = rawConfig;
@@ -3169,6 +3169,23 @@ var index_esm_version = "9.6.1";
 registerVersion(index_esm_name, index_esm_version, 'app');
 //# sourceMappingURL=index.esm.js.map
 
+;// CONCATENATED MODULE: ./src/modules/firebase/initFirebase.js
+
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyD27BaorWNp_7HTAcFpfcQJEU2k6O75HpU",
+    authDomain: "library-92910.firebaseapp.com",
+    projectId: "library-92910",
+    storageBucket: "library-92910.appspot.com",
+    messagingSenderId: "778596230620",
+    appId: "1:778596230620:web:031ba101402eb1b8185b19"
+  };
+  
+  // Initialize Firebase
+  const firebaseApp = initializeApp(firebaseConfig);
+
+  
 ;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -3833,7 +3850,7 @@ const AUTH_ERROR_CODES_MAP_DO_NOT_USE_INTERNALLY = {
 const logClient = new Logger('@firebase/auth');
 function _logError(msg, ...args) {
     if (logClient.logLevel <= index_esm2017_LogLevel.ERROR) {
-        logClient.error(`Auth (${index_esm2017_SDK_VERSION}): ${msg}`, ...args);
+        logClient.error(`Auth (${SDK_VERSION}): ${msg}`, ...args);
     }
 }
 
@@ -3992,11 +4009,11 @@ function _getInstance(cls) {
  * @public
  */
 function initializeAuth(app, deps) {
-    const provider = _getProvider(app, 'auth');
+    const provider = index_esm2017_getProvider(app, 'auth');
     if (provider.isInitialized()) {
         const auth = provider.getImmediate();
         const initialOptions = provider.getOptions();
-        if (deepEqual(initialOptions, deps !== null && deps !== void 0 ? deps : {})) {
+        if (index_esm2017_deepEqual(initialOptions, deps !== null && deps !== void 0 ? deps : {})) {
             return auth;
         }
         else {
@@ -5464,7 +5481,7 @@ function _isIOS7Or8(ua = getUA()) {
     return (/(iPad|iPhone|iPod).*OS 7_\d/i.test(ua) ||
         /(iPad|iPhone|iPod).*OS 8_\d/i.test(ua));
 }
-function _isIOSStandalone(ua = getUA()) {
+function _isIOSStandalone(ua = index_esm2017_getUA()) {
     var _a;
     return _isIOS(ua) && !!((_a = window.navigator) === null || _a === void 0 ? void 0 : _a.standalone);
 }
@@ -5529,7 +5546,7 @@ function _getClientVersion(clientPlatform, frameworks = []) {
     const reportedFrameworks = frameworks.length
         ? frameworks.join(',')
         : 'FirebaseCore-web'; /* default value if no other framework is used */
-    return `${reportedPlatform}/${"JsCore" /* CORE */}/${index_esm2017_SDK_VERSION}/${reportedFrameworks}`;
+    return `${reportedPlatform}/${"JsCore" /* CORE */}/${SDK_VERSION}/${reportedFrameworks}`;
 }
 
 /**
@@ -8362,7 +8379,7 @@ async function verifyPasswordResetCode(auth, code) {
  *
  * @public
  */
-async function createUserWithEmailAndPassword(auth, email, password) {
+async function index_839de510_createUserWithEmailAndPassword(auth, email, password) {
     const authInternal = _castAuth(auth);
     const response = await signUp(authInternal, {
         returnSecureToken: true,
@@ -9508,7 +9525,7 @@ BrowserLocalPersistence.type = 'LOCAL';
  *
  * @public
  */
-const browserLocalPersistence = (/* unused pure expression or super */ null && (BrowserLocalPersistence));
+const browserLocalPersistence = BrowserLocalPersistence;
 
 /**
  * @license
@@ -9546,7 +9563,7 @@ BrowserSessionPersistence.type = 'SESSION';
  *
  * @public
  */
-const browserSessionPersistence = (/* unused pure expression or super */ null && (BrowserSessionPersistence));
+const browserSessionPersistence = BrowserSessionPersistence;
 
 /**
  * @license
@@ -10244,7 +10261,7 @@ IndexedDBLocalPersistence.type = 'LOCAL';
  *
  * @public
  */
-const indexedDBLocalPersistence = (/* unused pure expression or super */ null && (IndexedDBLocalPersistence));
+const indexedDBLocalPersistence = IndexedDBLocalPersistence;
 
 /**
  * @license
@@ -11523,7 +11540,7 @@ const PENDING_REDIRECT_KEY = 'pendingRedirect';
 // We only get one redirect outcome for any one auth, so just store it
 // in here.
 const redirectOutcomeMap = new Map();
-class RedirectAction extends (/* unused pure expression or super */ null && (AbstractPopupRedirectOperation)) {
+class RedirectAction extends AbstractPopupRedirectOperation {
     constructor(auth, resolver, bypassAuthState = false) {
         super(auth, [
             "signInViaRedirect" /* SIGN_IN_VIA_REDIRECT */,
@@ -11827,7 +11844,7 @@ async function prepareUserForRedirect(user) {
  */
 // The amount of time to store the UIDs of seen events; this is
 // set to 10 min by default
-const EVENT_DUPLICATION_CACHE_DURATION_MS = (/* unused pure expression or super */ null && (10 * 60 * 1000));
+const EVENT_DUPLICATION_CACHE_DURATION_MS = 10 * 60 * 1000;
 class AuthEventManager {
     constructor(auth) {
         this.auth = auth;
@@ -12176,7 +12193,7 @@ function getIframeUrl(auth) {
     if (frameworks.length) {
         params.fw = frameworks.join(',');
     }
-    return `${url}?${querystring(params).slice(1)}`;
+    return `${url}?${index_esm2017_querystring(params).slice(1)}`;
 }
 async function _openIframe(auth) {
     const context = await _loadGapi(auth);
@@ -12260,7 +12277,7 @@ function _open(auth, url, name, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT) 
         left });
     // Chrome iOS 7 and 8 is returning an undefined popup win when target is
     // specified, even though the popup is not necessarily blocked.
-    const ua = getUA().toLowerCase();
+    const ua = index_esm2017_getUA().toLowerCase();
     if (name) {
         target = _isChromeIOS(ua) ? TARGET_BLANK : name;
     }
@@ -12363,7 +12380,7 @@ function _getRedirectUrl(auth, provider, authType, redirectUrl, eventId, additio
             delete paramsDict[key];
         }
     }
-    return `${getHandlerBase(auth)}?${querystring(paramsDict).slice(1)}`;
+    return `${getHandlerBase(auth)}?${index_esm2017_querystring(paramsDict).slice(1)}`;
 }
 function getHandlerBase({ config }) {
     if (!config.emulator) {
@@ -12477,7 +12494,7 @@ class BrowserPopupRedirectResolver {
  *
  * @public
  */
-const browserPopupRedirectResolver = (/* unused pure expression or super */ null && (BrowserPopupRedirectResolver));
+const browserPopupRedirectResolver = BrowserPopupRedirectResolver;
 
 class MultiFactorAssertionImpl {
     constructor(factorId) {
@@ -12722,8 +12739,8 @@ function registerAuth(clientPlatform) {
  *
  * @public
  */
-function getAuth(app = getApp()) {
-    const provider = _getProvider(app, 'auth');
+function getAuth(app = index_esm2017_getApp()) {
+    const provider = index_esm2017_getProvider(app, 'auth');
     if (provider.isInitialized()) {
         return provider.getImmediate();
     }
@@ -12753,6 +12770,21 @@ registerAuth("Browser" /* BROWSER */);
 ;// CONCATENATED MODULE: ./node_modules/firebase/auth/dist/index.esm.js
 
 //# sourceMappingURL=index.esm.js.map
+
+;// CONCATENATED MODULE: ./src/modules/firebase/newUser.js
+// Create user with email / password function
+
+
+const createUser = async (email, password, auth) => {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+    } catch(error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    }
+}
+
 
 ;// CONCATENATED MODULE: ./node_modules/@firebase/webchannel-wrapper/dist/index.esm2017.js
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof __webpack_require__.g !== 'undefined' ? __webpack_require__.g : typeof self !== 'undefined' ? self : {};
@@ -30693,7 +30725,7 @@ function Ih(t, e) {
  */ !function(t, e = !0) {
     !function(t) {
         index_esm2017_C = t;
-    }(index_esm2017_SDK_VERSION), _registerComponent(new Component("firestore", ((t, {options: n}) => {
+    }(SDK_VERSION), _registerComponent(new Component("firestore", ((t, {options: n}) => {
         const s = t.getProvider("app").getImmediate(), i = new index_esm2017_Oc(s, new index_esm2017_H(t.getProvider("auth-internal")), new index_esm2017_Z(t.getProvider("app-check-internal")));
         return n = Object.assign({
             useFetchStreams: e
@@ -30710,162 +30742,162 @@ function Ih(t, e) {
 
 //# sourceMappingURL=index.esm.js.map
 
-;// CONCATENATED MODULE: ./src/modules/popup.js
-let pop = {
+;// CONCATENATED MODULE: ./src/modules/popups/entry.js
+let entry = {
 
-  // (A) ATTACH POPUP HTML
+  // (A) ATTACH NEW ENTRY HTML
   init : function () {
-    // (A1) POPUP WRAPPER
-    pop.pWrap = document.createElement("div");
-    pop.pWrap.id = "pop-up";
-    document.body.appendChild(pop.pWrap);
+    // (A1) NEW ENTRY WRAPPER
+    entry.pWrap = document.createElement("div");
+    entry.pWrap.id = "entry";
+    document.body.appendChild(entry.pWrap);
     
-    // (A2) POPUP BOX
-    pop.pBox = document.createElement("div");
-    pop.pBox.id = "pop-box";
-    pop.pWrap.appendChild(pop.pBox);
+    // (A2) NEW ENTRY BOX
+    entry.pBox = document.createElement("div");
+    entry.pBox.id = "entry-box";
+    entry.pWrap.appendChild(entry.pBox);
     
     // (A3) TITLE
-    pop.pTitle = document.createElement("h1");
-    pop.pTitle.id = "pop-title";
-    pop.pTitle.innerHTML = 'Add a New Book Entry';
-    pop.pBox.appendChild(pop.pTitle);
+    entry.pTitle = document.createElement("h1");
+    entry.pTitle.id = "entry-title";
+    entry.pTitle.innerHTML = 'Add a New Book Entry';
+    entry.pBox.appendChild(entry.pTitle);
 
     // (A4) CREATE FORM
-    pop.pForm = document.createElement("form");
-    pop.pForm.action = "/";
-    pop.pForm.method = "get";
-    pop.pForm.setAttribute('autocomplete', 'off');
+    entry.pForm = document.createElement("form");
+    entry.pForm.action = "/";
+    entry.pForm.method = "get";
+    entry.pForm.setAttribute('autocomplete', 'off');
 
     // (A5) FORM FIELD ONE (TITLE)
-    pop.pLabelOne = document.createElement("LABEL");
-    pop.pLabelOne.classList = "pop-labels";
-    pop.pLabelOne.htmlFor = "input-one";
-    pop.pLabelOne.innerHTML = "Title:"
-    pop.pForm.appendChild(pop.pLabelOne);
-    pop.pInputOne = document.createElement("INPUT");
-    pop.pInputOne.classList = "pop-inputs";
-    pop.pInputOne.id = "input-one";
-    pop.pInputOne.name = "input-one";
-    pop.pInputOne.placeholder = 'Enter the book\'s title';
-    pop.pInputOne.setAttribute("type", "text");
-    pop.pInputOne.setAttribute("minlength", "1");
-    pop.pInputOne.required = true;
-    pop.pForm.appendChild(pop.pInputOne);
+    entry.pLabelOne = document.createElement("LABEL");
+    entry.pLabelOne.classList = "entry-labels";
+    entry.pLabelOne.htmlFor = "entry-input-one";
+    entry.pLabelOne.innerHTML = "Title:"
+    entry.pForm.appendChild(entry.pLabelOne);
+    entry.pInputOne = document.createElement("INPUT");
+    entry.pInputOne.classList = "entry-inputs";
+    entry.pInputOne.id = "entry-input-one";
+    entry.pInputOne.name = "entry-input-one";
+    entry.pInputOne.placeholder = 'Enter the book\'s title';
+    entry.pInputOne.setAttribute("type", "text");
+    entry.pInputOne.setAttribute("minlength", "1");
+    entry.pInputOne.required = true;
+    entry.pForm.appendChild(entry.pInputOne);
 
     // (A6) FORM FIELD TWO (AUTHOR)
-    pop.pLabelTwo = document.createElement("LABEL");
-    pop.pLabelTwo.classList = "pop-labels";
-    pop.pLabelTwo.htmlFor = "input-two";
-    pop.pLabelTwo.innerHTML = "Author:"
-    pop.pForm.appendChild(pop.pLabelTwo);
-    pop.pInputTwo = document.createElement("INPUT");
-    pop.pInputTwo.required = true;
-    pop.pInputTwo.classList = "pop-inputs";
-    pop.pInputTwo.id = "input-two";
-    pop.pInputTwo.name = "input-two";
-    pop.pInputTwo.placeholder = 'Enter the book\'s author';
-    pop.pInputTwo.setAttribute("type", "text");
-    pop.pInputTwo.setAttribute("minlength", "1");
-    pop.pInputTwo.setAttribute('required', 'true');
-    pop.pForm.appendChild(pop.pInputTwo);
+    entry.pLabelTwo = document.createElement("LABEL");
+    entry.pLabelTwo.classList = "entry-labels";
+    entry.pLabelTwo.htmlFor = "entry-input-two";
+    entry.pLabelTwo.innerHTML = "Author:"
+    entry.pForm.appendChild(entry.pLabelTwo);
+    entry.pInputTwo = document.createElement("INPUT");
+    entry.pInputTwo.required = true;
+    entry.pInputTwo.classList = "entry-inputs";
+    entry.pInputTwo.id = "entry-input-two";
+    entry.pInputTwo.name = "entry-input-two";
+    entry.pInputTwo.placeholder = 'Enter the book\'s author';
+    entry.pInputTwo.setAttribute("type", "text");
+    entry.pInputTwo.setAttribute("minlength", "1");
+    entry.pInputTwo.setAttribute('required', 'true');
+    entry.pForm.appendChild(entry.pInputTwo);
 
     // (A7) FORM FIELD THREE (LENGTH)
-    pop.pLabelThree = document.createElement("LABEL");
-    pop.pLabelThree.classList = "pop-labels";
-    pop.pLabelThree.htmlFor = "input-three";
-    pop.pLabelThree.innerHTML = "Total Pages:"
-    pop.pForm.appendChild(pop.pLabelThree);
-    pop.pInputThree = document.createElement("INPUT");
-    pop.pInputThree.required = true;
-    pop.pInputThree.setAttribute("type", "number");
-    pop.pInputThree.classList = "pop-inputs";
-    pop.pInputThree.id = "input-three";
-    pop.pInputThree.name = "input-three";
-    pop.pInputThree.placeholder = 'Enter the book\'s total pages';
-    pop.pInputThree.setAttribute('required', 'true');
-    pop.pInputThree.setAttribute("minlength", "1");
-    pop.pForm.appendChild(pop.pInputThree);
+    entry.pLabelThree = document.createElement("LABEL");
+    entry.pLabelThree.classList = "entry-labels";
+    entry.pLabelThree.htmlFor = "entry-input-three";
+    entry.pLabelThree.innerHTML = "Total Pages:"
+    entry.pForm.appendChild(entry.pLabelThree);
+    entry.pInputThree = document.createElement("INPUT");
+    entry.pInputThree.required = true;
+    entry.pInputThree.setAttribute("type", "number");
+    entry.pInputThree.classList = "entry-inputs";
+    entry.pInputThree.id = "entry-input-three";
+    entry.pInputThree.name = "entry-input-three";
+    entry.pInputThree.placeholder = 'Enter the book\'s total pages';
+    entry.pInputThree.setAttribute('required', 'true');
+    entry.pInputThree.setAttribute("minlength", "1");
+    entry.pForm.appendChild(entry.pInputThree);
 
     // (A8) FORM FIELD FOUR (LANGUAGE)
-    pop.pLabelFour = document.createElement("LABEL");
-    pop.pLabelFour.classList = "pop-labels";
-    pop.pLabelFour.htmlFor = "input-four";
-    pop.pLabelFour.innerHTML = "Language:"
-    pop.pForm.appendChild(pop.pLabelFour);
-    pop.pInputFour = document.createElement("INPUT");
-    pop.pInputFour.required = true;
-    pop.pInputFour.classList = "pop-inputs";
-    pop.pInputFour.id = "input-four";
-    pop.pInputFour.name = "input-four";
-    pop.pInputFour.placeholder = 'Enter the book\'s language';
-    pop.pInputFour.setAttribute("type", "text");
-    pop.pInputFour.setAttribute('required', 'true')
-    pop.pInputFour.setAttribute("minlength", "1");
-    pop.pForm.appendChild(pop.pInputFour);
+    entry.pLabelFour = document.createElement("LABEL");
+    entry.pLabelFour.classList = "entry-labels";
+    entry.pLabelFour.htmlFor = "entry-input-four";
+    entry.pLabelFour.innerHTML = "Language:"
+    entry.pForm.appendChild(entry.pLabelFour);
+    entry.pInputFour = document.createElement("INPUT");
+    entry.pInputFour.required = true;
+    entry.pInputFour.classList = "entry-inputs";
+    entry.pInputFour.id = "entry-input-four";
+    entry.pInputFour.name = "entry-input-four";
+    entry.pInputFour.placeholder = 'Enter the book\'s language';
+    entry.pInputFour.setAttribute("type", "text");
+    entry.pInputFour.setAttribute('required', 'true')
+    entry.pInputFour.setAttribute("minlength", "1");
+    entry.pForm.appendChild(entry.pInputFour);
 
     // (A9) FORM RADIO OPTIONS (READ/UNREAD)
-    pop.pRadioBox = document.createElement("div");
-    pop.pRadioBox.id = 'radio-box';
-    pop.pInputFive = document.createElement("INPUT");
-    pop.pInputFive.classList = "pop-radio-inputs";
-    pop.pInputFive.id = "input-five";
-    pop.pInputFive.name = "read-vs-unread";
-    pop.pInputFive.checked = "true";
-    pop.pInputFive.value = "read";
-    pop.pInputFive.setAttribute("type", "radio");
-    pop.pRadioBox.appendChild(pop.pInputFive);
-    pop.pLabelFive = document.createElement("LABEL");
-    pop.pLabelFive.classList = "pop-radio-labels";
-    pop.pLabelFive.htmlFor = "input-five";
-    pop.pLabelFive.innerHTML = "Read"
-    pop.pRadioBox.appendChild(pop.pLabelFive);
-    pop.pInputSix = document.createElement("INPUT");
-    pop.pInputSix.classList = "pop-radio-inputs";
-    pop.pInputSix.id = "input-six";
-    pop.pInputSix.name = "read-vs-unread";
-    pop.pInputSix.value = "unread";
-    pop.pInputSix.setAttribute("type", "radio");
-    pop.pRadioBox.appendChild(pop.pInputSix);
-    pop.pLabelSix = document.createElement("LABEL");
-    pop.pLabelSix.classList = "pop-radio-labels";
-    pop.pLabelSix.htmlFor = "input-six";
-    pop.pLabelSix.innerHTML = "Unread"
-    pop.pRadioBox.appendChild(pop.pLabelSix);
-    pop.pForm.appendChild(pop.pRadioBox);
+    entry.pRadioBox = document.createElement("div");
+    entry.pRadioBox.id = 'entry-radio-box';
+    entry.pInputFive = document.createElement("INPUT");
+    entry.pInputFive.classList = "entry-radio-inputs";
+    entry.pInputFive.id = "entry-input-five";
+    entry.pInputFive.name = "read-vs-unread";
+    entry.pInputFive.checked = "true";
+    entry.pInputFive.value = "read";
+    entry.pInputFive.setAttribute("type", "radio");
+    entry.pRadioBox.appendChild(entry.pInputFive);
+    entry.pLabelFive = document.createElement("LABEL");
+    entry.pLabelFive.classList = "entry-radio-labels";
+    entry.pLabelFive.htmlFor = "entry-input-five";
+    entry.pLabelFive.innerHTML = "Read"
+    entry.pRadioBox.appendChild(entry.pLabelFive);
+    entry.pInputSix = document.createElement("INPUT");
+    entry.pInputSix.classList = "entry-radio-inputs";
+    entry.pInputSix.id = "entry-input-six";
+    entry.pInputSix.name = "read-vs-unread";
+    entry.pInputSix.value = "unread";
+    entry.pInputSix.setAttribute("type", "radio");
+    entry.pRadioBox.appendChild(entry.pInputSix);
+    entry.pLabelSix = document.createElement("LABEL");
+    entry.pLabelSix.classList = "entry-radio-labels";
+    entry.pLabelSix.htmlFor = "entry-input-six";
+    entry.pLabelSix.innerHTML = "Unread"
+    entry.pRadioBox.appendChild(entry.pLabelSix);
+    entry.pForm.appendChild(entry.pRadioBox);
 
      // (A10) FORM SUBMIT BUTTON
-     pop.pSubmit = document.createElement("BUTTON");
-     pop.pSubmit.id = "button";
-     pop.pSubmit.innerText = 'Add New Book';
-     pop.pSubmit.setAttribute("type", "submit");
-     pop.pForm.appendChild(pop.pSubmit);
+     entry.pSubmit = document.createElement("BUTTON");
+     entry.pSubmit.id = "entry-submit";
+     entry.pSubmit.innerText = 'Add New Book';
+     entry.pSubmit.setAttribute("type", "submit");
+     entry.pForm.appendChild(entry.pSubmit);
 
     // (A11) APPEND FORM TO BOX
 
-    pop.pBox.appendChild(pop.pForm);
+    entry.pBox.appendChild(entry.pForm);
     
     // (A12) CLOSE
-    pop.pClose = document.createElement("div");
-    pop.pClose.id = "pop-close";
-    pop.pClose.innerHTML = "✕";
-    pop.pClose.onclick = pop.close;
-    pop.pBox.appendChild(pop.pClose);
+    entry.pClose = document.createElement("div");
+    entry.pClose.id = "entry-close";
+    entry.pClose.innerHTML = "✕";
+    entry.pClose.onclick = entry.close;
+    entry.pBox.appendChild(entry.pClose);
   },
 
-  // (B) OPEN POPUP
+  // (B) OPEN NEW ENTRY
   open : function () {
-    pop.pWrap.classList.add("open");
+    entry.pWrap.classList.add("open");
   },
 
-  // (C) CLOSE POPUP
+  // (C) CLOSE NEW ENTRY
   close : function () {
-    pop.pWrap.classList.remove("open");
+    entry.pWrap.classList.remove("open");
   }
 };
 
 
-;// CONCATENATED MODULE: ./src/modules/register.js
+;// CONCATENATED MODULE: ./src/modules/popups/register.js
 let register = {
 
     // (A) ATTACH REGISTER POPUP HTML
@@ -30892,64 +30924,48 @@ let register = {
         register.pForm.method = "get";
         register.pForm.setAttribute('autocomplete', 'off');
 
-        // (A5) FORM FIELD ONE (FIRST NAME)
+        // (A5) FORM FIELD TWO (EMAIL)
         register.pLabelOne = document.createElement("LABEL");
         register.pLabelOne.classList = "register-labels";
         register.pLabelOne.htmlFor = "register-input-one";
-        register.pLabelOne.innerHTML = "First Name:"
+        register.pLabelOne.innerHTML = "Email:"
         register.pForm.appendChild(register.pLabelOne);
         register.pInputOne = document.createElement("INPUT");
         register.pInputOne.classList = "register-inputs";
         register.pInputOne.id = "register-input-one";
         register.pInputOne.name = "register-input-one";
-        register.pInputOne.placeholder = 'Enter your first name';
-        register.pInputOne.setAttribute("type", "text");
-        register.pInputOne.setAttribute("minlength", "1");
+        register.pInputOne.placeholder = 'Enter your email address';
+        register.pInputOne.setAttribute("type", "email");
         register.pInputOne.setAttribute('required', 'true');
         register.pForm.appendChild(register.pInputOne);
 
-        // (A6) FORM FIELD TWO (EMAIL)
+        // (A6) FORM FIELD THREE (PASSWORD)
         register.pLabelTwo = document.createElement("LABEL");
         register.pLabelTwo.classList = "register-labels";
-        register.pLabelTwo.htmlFor = "register-input-two";
-        register.pLabelTwo.innerHTML = "Email:"
+        register.pLabelTwo.htmlFor = "input-two";
+        register.pLabelTwo.innerHTML = "Password:"
         register.pForm.appendChild(register.pLabelTwo);
         register.pInputTwo = document.createElement("INPUT");
         register.pInputTwo.classList = "register-inputs";
         register.pInputTwo.id = "register-input-two";
         register.pInputTwo.name = "register-input-two";
-        register.pInputTwo.placeholder = 'Enter your email address:';
-        register.pInputTwo.setAttribute("type", "email");
+        register.pInputTwo.placeholder = 'Enter your desired password';
+        register.pInputTwo.setAttribute("type", "text");
+        register.pInputTwo.setAttribute("minlength", "1");
         register.pInputTwo.setAttribute('required', 'true');
         register.pForm.appendChild(register.pInputTwo);
 
-        // (A7) FORM FIELD THREE (PASSWORD)
-        register.pLabelThree = document.createElement("LABEL");
-        register.pLabelThree.classList = "register-labels";
-        register.pLabelThree.htmlFor = "input-three";
-        register.pLabelThree.innerHTML = "Password:"
-        register.pForm.appendChild(register.pLabelThree);
-        register.pInputThree = document.createElement("INPUT");
-        register.pInputThree.classList = "register-inputs";
-        register.pInputThree.id = "register-input-three";
-        register.pInputThree.name = "register-input-three";
-        register.pInputThree.placeholder = 'Enter your desired password';
-        register.pInputThree.setAttribute("type", "text");
-        register.pInputThree.setAttribute("minlength", "1");
-        register.pInputThree.setAttribute('required', 'true');
-        register.pForm.appendChild(register.pInputThree);
-
-        // (A8) FORM SUBMIT BUTTON
+        // (A7) FORM SUBMIT BUTTON
         register.pSubmit = document.createElement("BUTTON");
         register.pSubmit.id = "register-submit";
         register.pSubmit.innerText = 'Register';
         register.pSubmit.setAttribute("type", "submit");
         register.pForm.appendChild(register.pSubmit);
 
-        // (A9) APPEND FORM TO BOX
+        // (A8) APPEND FORM TO BOX
         register.pBox.appendChild(register.pForm);
 
-        // (A10) CLOSE
+        // (A9) CLOSE
         register.pClose = document.createElement("div");
         register.pClose.id = "register-close";
         register.pClose.innerHTML = "✕";
@@ -30969,7 +30985,7 @@ let register = {
 }
 
 
-;// CONCATENATED MODULE: ./src/modules/login.js
+;// CONCATENATED MODULE: ./src/modules/popups/login.js
 let login = {
 
     // (A) ATTACH LOGIN POPUP HTML
@@ -31058,18 +31074,31 @@ let login = {
 
 
 ;// CONCATENATED MODULE: ./src/app.js
-// Import the functions you need from the SDKs you need
+// Import Firebase functions
 
 
 
 
-// Import Pop-Up, Register, & Login Modules, Then Create Elements
 
-window.addEventListener("DOMContentLoaded", pop.init());
+// Create auth from Firebase
+const auth = getAuth();
+
+// Import Entry, Register, & Login Pop-Up Modules, Then Create Elements
+
+window.addEventListener("DOMContentLoaded", entry.init());
 
 window.addEventListener("DOMContentLoaded", register.init());
 
 window.addEventListener("DOMContentLoaded", login.init());
+
+// Pass registration form submission values to createUser
+const newRegistration = (event) => {
+    event.preventDefault()
+    const email = event.target.children[1].value
+    const password = event.target.children[3].value
+    console.log(email, password)
+    register.close()
+}
 
 // Initiliaze Local Storage Functions
 Storage.prototype.setObj = function(key, obj) {
@@ -31118,10 +31147,10 @@ const libLogStats = document.getElementById('lib-log-stats');
 const darkModeText = document.getElementById('dark-mode');
 const pageBody = document.body;
 const bookBlocks = bookSection.children;
-const popupButton = document.getElementById('popup-button');
+const entryButton = document.getElementById('entry-button');
 const navSection = document.getElementById('nav-section');
 const favicon = document.getElementById('favicon');
-const popupBox = document.getElementById('pop-box');
+const entryBox = document.getElementById('entry-box');
 
 // Dark Mode Function
 const changeDarkMode = function(event) {
@@ -31134,15 +31163,15 @@ const changeDarkMode = function(event) {
         libLogStats.style.color = '#c4e5f3';
         darkModeText.style.color = '#c4e5f3';
         pageBody.style.backgroundColor = 'rgb(25, 25, 25)';
-        popupButton.style.boxShadow = 'rgb(10, 10, 10) 1px 1px 2px 1px';
+        entryButton.style.boxShadow = 'rgb(10, 10, 10) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(30, 30, 30)';
         navSection.style.color = '#c4e5f3';
         for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'rgb(10, 10, 10) 2px 2px 5px 1px';
         };
-        popupBox.style.backgroundColor = 'rgb(35, 35, 35)';
-        for (let i = 0; i < popupBox.children.length; i++) {
-            popupBox.children[i].style.color = '#c4e5f3';
+        entryBox.style.backgroundColor = 'rgb(35, 35, 35)';
+        for (let i = 0; i < entryBox.children.length; i++) {
+            entryBox.children[i].style.color = '#c4e5f3';
         };
     } else {
         pageTitle.style.color = '#164460';
@@ -31153,15 +31182,15 @@ const changeDarkMode = function(event) {
         libLogStats.style.color = '#164460';
         darkModeText.style.color = '#164460';
         pageBody.style.backgroundColor = 'white';
-        popupButton.style.boxShadow = 'rgb(180, 180, 180) 1px 1px 2px 1px';
+        entryButton.style.boxShadow = 'rgb(180, 180, 180) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(240, 240, 240)';
         navSection.style.color = '#164460';
         for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'grey 2px 2px 5px 1px';
         };
-        popupBox.style.backgroundColor = 'white';
-        for (let i = 0; i < popupBox.children.length; i++) {
-            popupBox.children[i].style.color = '#164460';
+        entryBox.style.backgroundColor = 'white';
+        for (let i = 0; i < entryBox.children.length; i++) {
+            entryBox.children[i].style.color = '#164460';
         };
     };
 };
@@ -31353,7 +31382,7 @@ const newBookFromForm = function(event) {
     let language = document.getElementById('input-four').value;
     let read = document.getElementById('input-five').checked;
     new Book(title, author, pages, language, read);
-    pop.close();
+    entry.close();
 };
 
 const sortByChange = function(event) {
@@ -31367,10 +31396,11 @@ const ascDescChange = function(event) {
 
 // Event Listeners
 registerButton.addEventListener('click', register.open);
+register.pForm.addEventListener('submit', newRegistration)
 loginButton.addEventListener('click', login.open);
 darkModeButton.addEventListener('click', changeDarkMode);
-popupButton.firstChild.addEventListener('click', pop.open);
-pop.pForm.addEventListener('submit', newBookFromForm);
+entryButton.firstChild.addEventListener('click', entry.open);
+entry.pForm.addEventListener('submit', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
 
@@ -31385,18 +31415,5 @@ if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
     new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
     new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
 };
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyD27BaorWNp_7HTAcFpfcQJEU2k6O75HpU",
-  authDomain: "library-92910.firebaseapp.com",
-  projectId: "library-92910",
-  storageBucket: "library-92910.appspot.com",
-  messagingSenderId: "778596230620",
-  appId: "1:778596230620:web:031ba101402eb1b8185b19"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 /******/ })()
 ;

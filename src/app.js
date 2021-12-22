@@ -1,15 +1,28 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+// Import Firebase functions
+import { firebaseApp } from './modules/firebase/initFirebase.js';
+import { createUser } from './modules/firebase/newUser.js';
+import { getAuth } from 'firebase/auth';
 import {  } from 'firebase/firestore';
 
-// Import Pop-Up, Register, & Login Modules, Then Create Elements
-import { pop } from './modules/popup.js';
-window.addEventListener("DOMContentLoaded", pop.init());
-import { register } from './modules/register.js';
+// Create auth from Firebase
+const auth = getAuth();
+
+// Import Entry, Register, & Login Pop-Up Modules, Then Create Elements
+import { entry } from './modules/popups/entry.js';
+window.addEventListener("DOMContentLoaded", entry.init());
+import { register } from './modules/popups/register.js';
 window.addEventListener("DOMContentLoaded", register.init());
-import { login } from './modules/login.js';
+import { login } from './modules/popups/login.js';
 window.addEventListener("DOMContentLoaded", login.init());
+
+// Pass registration form submission values to createUser
+const newRegistration = (event) => {
+    event.preventDefault()
+    const email = event.target.children[1].value
+    const password = event.target.children[3].value
+    createUser(auth, email, password)
+    register.close()
+}
 
 // Initiliaze Local Storage Functions
 Storage.prototype.setObj = function(key, obj) {
@@ -58,10 +71,10 @@ const libLogStats = document.getElementById('lib-log-stats');
 const darkModeText = document.getElementById('dark-mode');
 const pageBody = document.body;
 const bookBlocks = bookSection.children;
-const popupButton = document.getElementById('popup-button');
+const entryButton = document.getElementById('entry-button');
 const navSection = document.getElementById('nav-section');
 const favicon = document.getElementById('favicon');
-const popupBox = document.getElementById('pop-box');
+const entryBox = document.getElementById('entry-box');
 
 // Dark Mode Function
 const changeDarkMode = function(event) {
@@ -74,15 +87,15 @@ const changeDarkMode = function(event) {
         libLogStats.style.color = '#c4e5f3';
         darkModeText.style.color = '#c4e5f3';
         pageBody.style.backgroundColor = 'rgb(25, 25, 25)';
-        popupButton.style.boxShadow = 'rgb(10, 10, 10) 1px 1px 2px 1px';
+        entryButton.style.boxShadow = 'rgb(10, 10, 10) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(30, 30, 30)';
         navSection.style.color = '#c4e5f3';
         for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'rgb(10, 10, 10) 2px 2px 5px 1px';
         };
-        popupBox.style.backgroundColor = 'rgb(35, 35, 35)';
-        for (let i = 0; i < popupBox.children.length; i++) {
-            popupBox.children[i].style.color = '#c4e5f3';
+        entryBox.style.backgroundColor = 'rgb(35, 35, 35)';
+        for (let i = 0; i < entryBox.children.length; i++) {
+            entryBox.children[i].style.color = '#c4e5f3';
         };
     } else {
         pageTitle.style.color = '#164460';
@@ -93,15 +106,15 @@ const changeDarkMode = function(event) {
         libLogStats.style.color = '#164460';
         darkModeText.style.color = '#164460';
         pageBody.style.backgroundColor = 'white';
-        popupButton.style.boxShadow = 'rgb(180, 180, 180) 1px 1px 2px 1px';
+        entryButton.style.boxShadow = 'rgb(180, 180, 180) 1px 1px 2px 1px';
         navSection.style.backgroundColor = 'rgb(240, 240, 240)';
         navSection.style.color = '#164460';
         for (let i = 0; i < bookBlocks.length; i++) {
             bookBlocks[i].style.boxShadow = 'grey 2px 2px 5px 1px';
         };
-        popupBox.style.backgroundColor = 'white';
-        for (let i = 0; i < popupBox.children.length; i++) {
-            popupBox.children[i].style.color = '#164460';
+        entryBox.style.backgroundColor = 'white';
+        for (let i = 0; i < entryBox.children.length; i++) {
+            entryBox.children[i].style.color = '#164460';
         };
     };
 };
@@ -293,7 +306,7 @@ const newBookFromForm = function(event) {
     let language = document.getElementById('input-four').value;
     let read = document.getElementById('input-five').checked;
     new Book(title, author, pages, language, read);
-    pop.close();
+    entry.close();
 };
 
 const sortByChange = function(event) {
@@ -307,10 +320,11 @@ const ascDescChange = function(event) {
 
 // Event Listeners
 registerButton.addEventListener('click', register.open);
+register.pForm.addEventListener('submit', newRegistration)
 loginButton.addEventListener('click', login.open);
 darkModeButton.addEventListener('click', changeDarkMode);
-popupButton.firstChild.addEventListener('click', pop.open);
-pop.pForm.addEventListener('submit', newBookFromForm);
+entryButton.firstChild.addEventListener('click', entry.open);
+entry.pForm.addEventListener('submit', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
 
@@ -325,16 +339,3 @@ if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
     new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
     new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
 };
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyD27BaorWNp_7HTAcFpfcQJEU2k6O75HpU",
-  authDomain: "library-92910.firebaseapp.com",
-  projectId: "library-92910",
-  storageBucket: "library-92910.appspot.com",
-  messagingSenderId: "778596230620",
-  appId: "1:778596230620:web:031ba101402eb1b8185b19"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
