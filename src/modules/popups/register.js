@@ -24,64 +24,48 @@ let register = {
         register.pForm.method = "get";
         register.pForm.setAttribute('autocomplete', 'off');
 
-        // (A5) FORM FIELD ONE (FIRST NAME)
+        // (A5) FORM FIELD TWO (EMAIL)
         register.pLabelOne = document.createElement("LABEL");
         register.pLabelOne.classList = "register-labels";
         register.pLabelOne.htmlFor = "register-input-one";
-        register.pLabelOne.innerHTML = "First Name:"
+        register.pLabelOne.innerHTML = "Email:"
         register.pForm.appendChild(register.pLabelOne);
         register.pInputOne = document.createElement("INPUT");
         register.pInputOne.classList = "register-inputs";
         register.pInputOne.id = "register-input-one";
         register.pInputOne.name = "register-input-one";
-        register.pInputOne.placeholder = 'Enter your first name';
-        register.pInputOne.setAttribute("type", "text");
-        register.pInputOne.setAttribute("minlength", "1");
+        register.pInputOne.placeholder = 'Enter your email address';
+        register.pInputOne.setAttribute("type", "email");
         register.pInputOne.setAttribute('required', 'true');
         register.pForm.appendChild(register.pInputOne);
 
-        // (A6) FORM FIELD TWO (EMAIL)
+        // (A6) FORM FIELD THREE (PASSWORD)
         register.pLabelTwo = document.createElement("LABEL");
         register.pLabelTwo.classList = "register-labels";
-        register.pLabelTwo.htmlFor = "register-input-two";
-        register.pLabelTwo.innerHTML = "Email:"
+        register.pLabelTwo.htmlFor = "input-two";
+        register.pLabelTwo.innerHTML = "Password:"
         register.pForm.appendChild(register.pLabelTwo);
         register.pInputTwo = document.createElement("INPUT");
         register.pInputTwo.classList = "register-inputs";
         register.pInputTwo.id = "register-input-two";
         register.pInputTwo.name = "register-input-two";
-        register.pInputTwo.placeholder = 'Enter your email address:';
-        register.pInputTwo.setAttribute("type", "email");
+        register.pInputTwo.placeholder = 'Enter your desired password';
+        register.pInputTwo.setAttribute("type", "text");
+        register.pInputTwo.setAttribute("minlength", "1");
         register.pInputTwo.setAttribute('required', 'true');
         register.pForm.appendChild(register.pInputTwo);
 
-        // (A7) FORM FIELD THREE (PASSWORD)
-        register.pLabelThree = document.createElement("LABEL");
-        register.pLabelThree.classList = "register-labels";
-        register.pLabelThree.htmlFor = "input-three";
-        register.pLabelThree.innerHTML = "Password:"
-        register.pForm.appendChild(register.pLabelThree);
-        register.pInputThree = document.createElement("INPUT");
-        register.pInputThree.classList = "register-inputs";
-        register.pInputThree.id = "register-input-three";
-        register.pInputThree.name = "register-input-three";
-        register.pInputThree.placeholder = 'Enter your desired password';
-        register.pInputThree.setAttribute("type", "text");
-        register.pInputThree.setAttribute("minlength", "1");
-        register.pInputThree.setAttribute('required', 'true');
-        register.pForm.appendChild(register.pInputThree);
-
-        // (A8) FORM SUBMIT BUTTON
+        // (A7) FORM SUBMIT BUTTON
         register.pSubmit = document.createElement("BUTTON");
         register.pSubmit.id = "register-submit";
         register.pSubmit.innerText = 'Register';
         register.pSubmit.setAttribute("type", "submit");
         register.pForm.appendChild(register.pSubmit);
 
-        // (A9) APPEND FORM TO BOX
+        // (A8) APPEND FORM TO BOX
         register.pBox.appendChild(register.pForm);
 
-        // (A10) CLOSE
+        // (A9) CLOSE
         register.pClose = document.createElement("div");
         register.pClose.id = "register-close";
         register.pClose.innerHTML = "✕";
