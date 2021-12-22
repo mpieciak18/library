@@ -8379,7 +8379,7 @@ async function verifyPasswordResetCode(auth, code) {
  *
  * @public
  */
-async function index_839de510_createUserWithEmailAndPassword(auth, email, password) {
+async function createUserWithEmailAndPassword(auth, email, password) {
     const authInternal = _castAuth(auth);
     const response = await signUp(authInternal, {
         returnSecureToken: true,
@@ -8407,7 +8407,7 @@ async function index_839de510_createUserWithEmailAndPassword(auth, email, passwo
  * @public
  */
 function signInWithEmailAndPassword(auth, email, password) {
-    return signInWithCredential(getModularInstance(auth), EmailAuthProvider.credential(email, password));
+    return signInWithCredential(index_esm2017_getModularInstance(auth), EmailAuthProvider.credential(email, password));
 }
 
 /**
@@ -12771,14 +12771,27 @@ registerAuth("Browser" /* BROWSER */);
 
 //# sourceMappingURL=index.esm.js.map
 
-;// CONCATENATED MODULE: ./src/modules/firebase/newUser.js
+;// CONCATENATED MODULE: ./src/modules/firebase/auth.js
 // Create user with email / password function
 
 
-const createUser = async (email, password, auth) => {
+// Register, and then sign in, user
+const createUser = async (auth, email, password) => {
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        await createUserWithEmailAndPassword(auth, email, password)
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
         const user = userCredential.user
+    } catch(error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    }
+}
+
+const signinUser = async (auth, email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        console.log(user)
     } catch(error) {
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -30950,7 +30963,7 @@ let register = {
         register.pInputTwo.id = "register-input-two";
         register.pInputTwo.name = "register-input-two";
         register.pInputTwo.placeholder = 'Enter your desired password';
-        register.pInputTwo.setAttribute("type", "text");
+        register.pInputTwo.setAttribute("type", "password");
         register.pInputTwo.setAttribute("minlength", "1");
         register.pInputTwo.setAttribute('required', 'true');
         register.pForm.appendChild(register.pInputTwo);
@@ -31038,7 +31051,7 @@ let login = {
         login.pInputTwo.id = "login-input-two";
         login.pInputTwo.name = "login-input-two";
         login.pInputTwo.placeholder = 'Enter your password:';
-        login.pInputTwo.setAttribute("type", "text");
+        login.pInputTwo.setAttribute("type", "password");
         login.pInputTwo.setAttribute('minlength', '1')
         login.pInputTwo.setAttribute('required', 'true');
         login.pForm.appendChild(login.pInputTwo);
@@ -31096,8 +31109,17 @@ const newRegistration = (event) => {
     event.preventDefault()
     const email = event.target.children[1].value
     const password = event.target.children[3].value
-    console.log(email, password)
+    createUser(auth, email, password)
     register.close()
+}
+
+// Pass login form submission values to signinUser
+const newLogin = (event) => {
+    event.preventDefault()
+    const email = event.target.children[1].value
+    const password = event.target.children[3].value
+    signinUser(auth, email, password)
+    login.close()
 }
 
 // Initiliaze Local Storage Functions
@@ -31398,6 +31420,7 @@ const ascDescChange = function(event) {
 registerButton.addEventListener('click', register.open);
 register.pForm.addEventListener('submit', newRegistration)
 loginButton.addEventListener('click', login.open);
+login.pForm.addEventListener('submit', newLogin)
 darkModeButton.addEventListener('click', changeDarkMode);
 entryButton.firstChild.addEventListener('click', entry.open);
 entry.pForm.addEventListener('submit', newBookFromForm);

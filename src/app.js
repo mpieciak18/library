@@ -1,6 +1,6 @@
 // Import Firebase functions
 import { firebaseApp } from './modules/firebase/initFirebase.js';
-import { createUser } from './modules/firebase/newUser.js';
+import { createUser, signinUser } from './modules/firebase/auth.js';
 import { getAuth } from 'firebase/auth';
 import {  } from 'firebase/firestore';
 
@@ -22,6 +22,15 @@ const newRegistration = (event) => {
     const password = event.target.children[3].value
     createUser(auth, email, password)
     register.close()
+}
+
+// Pass login form submission values to signinUser
+const newLogin = (event) => {
+    event.preventDefault()
+    const email = event.target.children[1].value
+    const password = event.target.children[3].value
+    signinUser(auth, email, password)
+    login.close()
 }
 
 // Initiliaze Local Storage Functions
@@ -322,6 +331,7 @@ const ascDescChange = function(event) {
 registerButton.addEventListener('click', register.open);
 register.pForm.addEventListener('submit', newRegistration)
 loginButton.addEventListener('click', login.open);
+login.pForm.addEventListener('submit', newLogin)
 darkModeButton.addEventListener('click', changeDarkMode);
 entryButton.firstChild.addEventListener('click', entry.open);
 entry.pForm.addEventListener('submit', newBookFromForm);
