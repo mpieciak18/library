@@ -333,7 +333,7 @@ body {
         margin-right: -5px;
     }
 }
-#popup-button {
+#entry-button {
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -350,13 +350,13 @@ body {
     right: 2.5%;
     transition: all .1s ease
 }
-#popup-button:hover {
+#entry-button:hover {
     transform: scale(1.1)
 }
-#popup-button:active {
+#entry-button:active {
     transform: scale(0.9)
 }
-#popup-button > p {
+#entry-button > p {
     font-size: xx-large;
     margin-top: 0px;
     margin-bottom: 0px;
