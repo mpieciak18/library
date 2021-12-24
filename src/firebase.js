@@ -4,7 +4,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword
 } from 'firebase/auth';
-import { getFirestore, doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, getDocs } from 'firebase/firestore';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -21,12 +21,21 @@ const app = initializeApp(firebaseConfig)
 
 // Initialize Firestore
 const db = getFirestore()
-let users = collection(db, "users")
-console.log(users)
-let user = doc(users, "Z11Xd55BGBWfx39dLEzKqmDmS483")
-console.log(user)
-let books = collection(user, "books")
-console.log(books)
+
+// Query database and return array of books from user
+const retrieveBooks = async (userId) => {
+    const users = collection(db, "users")
+    const user = doc(users, userId)
+    const books = collection(user, "books")
+    const booksQuery = await getDocs(books)
+    let booksArr = []
+    booksQuery.forEach((doc) => {
+        const bookObj = doc.data()
+        bookObj.id = doc.id
+        booksArr = [...booksArr, bookObj]
+    })
+    return booksArr
+}
 
 // Register, and then sign in, user
 const createUser = async (auth, email, password) => {
@@ -53,4 +62,4 @@ const signinUser = async (auth, email, password) => {
     }
 }
 
-export { app, createUser, signinUser }
+export { app, retrieveBooks, createUser, signinUser }

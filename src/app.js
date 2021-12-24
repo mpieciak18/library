@@ -18,12 +18,14 @@ window.addEventListener("DOMContentLoaded", login.init());
 
 // Initialize loggedIn variable
 let loggedIn = false
+let userId
 
 // Attach auth state change listener, which updates login menu area
 auth.onAuthStateChanged((user) => {
     if (user) {
         loggedIn = true
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
+        userId == user.uid
     } else {
         loggedIn = false
         renderLoginMenu(loggedIn, login.open, register.open)

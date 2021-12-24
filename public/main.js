@@ -24174,7 +24174,7 @@ class no {
  * Once the Listen stream has called the onOpen() listener, any number of
  * listen() and unlisten() calls can be made to control what changes will be
  * sent from the server for ListenResponses.
- */ class so extends (/* unused pure expression or super */ null && (no)) {
+ */ class so extends no {
     constructor(t, e, n, s, i, r) {
         super(t, "listen_stream_connection_backoff" /* ListenStreamConnectionBackoff */ , "listen_stream_idle" /* ListenStreamIdle */ , "health_check_timeout" /* HealthCheckTimeout */ , e, n, s, r), 
         this.k = i;
@@ -29409,7 +29409,7 @@ function Vu(t, e, n, s, i) {
  * `DocumentSnapshot`. Since query results contain only existing documents, the
  * `exists` property will always be true and `data()` will never return
  * 'undefined'.
- */ class Cu extends (/* unused pure expression or super */ null && (Du)) {
+ */ class Cu extends Du {
     /**
      * Retrieves all fields in the document as an `Object`.
      *
@@ -29468,7 +29468,7 @@ function Vu(t, e, n, s, i) {
  * For a `DocumentSnapshot` that points to a non-existing document, any data
  * access will return 'undefined'. You can use the `exists()` method to
  * explicitly verify a document's existence.
- */ class xu extends (/* unused pure expression or super */ null && (Du)) {
+ */ class xu extends Du {
     /** @hideconstructor protected */
     constructor(t, e, n, s, i, r) {
         super(t, e, n, s, r), this._firestore = t, this._firestoreImpl = t, this.metadata = i;
@@ -29540,7 +29540,7 @@ function Vu(t, e, n, s, i) {
  * `DocumentSnapshot`. Since query results contain only existing documents, the
  * `exists` property will always be true and `data()` will never return
  * 'undefined'.
- */ class $u extends (/* unused pure expression or super */ null && (xu)) {
+ */ class $u extends xu {
     /**
      * Retrieves all fields in the document as an `Object`.
      *
@@ -30282,7 +30282,7 @@ function hh(t) {
     return index_esm2017_rc(index_esm2017_Bc(e), t._key).then((n => Rh(e, t, n)));
 }
 
-class lh extends (/* unused pure expression or super */ null && (rh)) {
+class lh extends rh {
     constructor(t) {
         super(), this.firestore = t;
     }
@@ -30737,6 +30737,22 @@ let user = index_esm2017_Dc(users, "Z11Xd55BGBWfx39dLEzKqmDmS483")
 console.log(user)
 let books = index_esm2017_Vc(user, "books")
 console.log(books)
+console.log(wh(books))
+const retArr = async () => {
+    const booksQuery = await wh(books)
+    booksQuery.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data())
+    })
+}
+retArr()
+
+// Query database and return array of books from user
+const retrieveBooks = async (userId) => {
+    const users = collection(firebase_db, "users")
+    const user = doc(users, userId)
+    const books = collection(user, "books")
+    const booksArr = await getDocs(books)
+}
 
 // Register, and then sign in, user
 const createUser = async (auth, email, password) => {
@@ -31155,12 +31171,14 @@ window.addEventListener("DOMContentLoaded", login.init());
 
 // Initialize loggedIn variable
 let loggedIn = false
+let userId
 
 // Attach auth state change listener, which updates login menu area
 auth.onAuthStateChanged((user) => {
     if (user) {
         loggedIn = true
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
+        userId == user.uid
     } else {
         loggedIn = false
         renderLoginMenu(loggedIn, login.open, register.open)
