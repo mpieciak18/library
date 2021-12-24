@@ -31323,21 +31323,37 @@ const deleteBookEntry = function(event) {
 };
 
 // Book Constructor
-const Book = function(title, author, pages, language, read) {
+// Scenario 1: user is not logged in, and new book is added OR book is rendered from local storage
+// (ie, loggedIn == false)
+// Scenario 2: user is logged in, and book is rendered from database
+// (ie, loggedIn == true && id != null)
+// Scenario 3: user is logged in, and new book is added
+// (ie, loggedIn == true && id == null)
+const Book = function(title, author, pages, language, read, id=null) {
     // Initialize object properties
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.language = language;
     this.read = read;
-    this.id = bookIdCounter;
-    bookIdCounter += 1;
+    this.id;
     this.toggleId = toggleButtonCounter;
     toggleButtonCounter += 1;
-    // Add object to book library array
-    myLibrary.push(this);
-    localStorage.setObj(0, myLibrary);
-    // Create new book element
+    // Scenario 1
+    if (loggedIn == false){
+        // Set book id to generic book counter, and increase counter
+        this.id = bookIdCounter;
+        bookIdCounter += 1;
+        // Add object to book library array and local storage
+        myLibrary.push(this);
+        localStorage.setObj(0, myLibrary);
+    // Scenario 2
+    } else if (loggedIn == true && id != null) {
+        // Set book id to passed id and add object to book library array
+        this.id = id;
+        myLibrary.push(this);
+    }
+    // Create new book element for this Book instance
     createBookElement(this);
     // Sort all book elements
     sortBookElements();
@@ -31487,11 +31503,13 @@ ascDescDropdown.addEventListener('change', ascDescChange);
 
 // Initialize book objects & render to DOM while logged out
 const initBooksLoggedOut = () => {
+    // If local storage is not empty, render books from local storage
     if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
         let newLib = localStorage.getObj(0);
         for (let i = 0; i < newLib.length; i++) {
             new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
         };
+    // If local storage is empty, add & render default example books
     } else {
         new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
         new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
