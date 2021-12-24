@@ -30731,20 +30731,45 @@ const app = initializeApp(firebaseConfig)
 
 // Initialize Firestore
 const firebase_db = index_esm2017_Lc()
+const getMethods = (obj) => {
+    let properties = new Set()
+    let currentObj = obj
+    do {
+      Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
+    } while ((currentObj = Object.getPrototypeOf(currentObj)))
+    return [...properties.keys()].filter(item => typeof obj[item] === 'function')
+  }
+console.log(getMethods(firebase_db))
 
 // Query database and return array of books from user
 const retrieveBooks = async (userId) => {
     const users = index_esm2017_Vc(firebase_db, "users")
     const user = index_esm2017_Dc(users, userId)
     const books = index_esm2017_Vc(user, "books")
-    const booksQuery = await wh(books)
+    const booksRef = await wh(books)
     let booksArr = []
-    booksQuery.forEach((doc) => {
+    booksRef.forEach((doc) => {
         const bookObj = doc.data()
         bookObj.id = doc.id
         booksArr = [...booksArr, bookObj]
     })
     return booksArr
+}
+
+// Add new book to database & return uid
+const addBookToDb = async (userId, book) => {
+    const data = {
+        author: book.author,
+        language: book.language,
+        length: book.length,
+        read: book.read,
+        title: book.title
+    }
+    const users = index_esm2017_Vc(firebase_db, "users")
+    const user = index_esm2017_Dc(users, userId)
+    const books = index_esm2017_Vc(user, "books")
+    const newBookRef = await Th(books, data)
+    return newBookRef.uid
 }
 
 // Register, and then sign in, user
@@ -31170,7 +31195,6 @@ auth.onAuthStateChanged((user) => {
         loggedIn = true
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
         userId = user.uid
-        console.log(userId)
         initBooksLoggedIn(userId)
     } else {
         loggedIn = false
@@ -31335,16 +31359,14 @@ const deleteBookEntry = function(event) {
 
 // Book Constructor
 // Scenario 1: user is not logged in, and new book is added OR book is rendered from local storage
-// (ie, loggedIn == false)
-// Scenario 2: user is logged in, and book is rendered from database
+// (ie, loggedIn == false && id == null)
+// Scenario 2: user is logged in, and book is rendered from firestore (either upon login or addition)
 // (ie, loggedIn == true && id != null)
-// Scenario 3: user is logged in, and new book is added
-// (ie, loggedIn == true && id == null)
-const Book = function(title, author, pages, language, read, id=null) {
+const Book = function(title, author, length, language, read, id=null) {
     // Initialize object properties
     this.title = title;
     this.author = author;
-    this.pages = pages;
+    this.length = length;
     this.language = language;
     this.read = read;
     this.id;
@@ -31395,7 +31417,7 @@ const createBookElement = function(thisBook) {
     let bookAuthor = document.createElement('p');
     bookAuthor.innerText = `By: ${thisBook.author}`;
     let bookPages = document.createElement('p');
-    bookPages.innerText = `Length: ${thisBook.pages} Pages`;
+    bookPages.innerText = `Length: ${thisBook.length} Pages`;
     let bookLanguage = document.createElement('p');
     bookLanguage.innerText = `Language: ${thisBook.language}`;
     // Add book-contents child elements to book-contents
@@ -31483,14 +31505,22 @@ const sortBookElements = function() {
 }; 
 
 // Form Submission Function
-const newBookFromForm = function(event) {
+const newBookFromForm = async function(event) {
     event.preventDefault();
-    let title = document.getElementById('input-one').value;
-    let author = document.getElementById('input-two').value;
-    let pages = document.getElementById('input-three').value;
-    let language = document.getElementById('input-four').value;
-    let read = document.getElementById('input-five').checked;
-    new Book(title, author, pages, language, read);
+    let title = document.getElementById('entry-input-one').value;
+    let author = document.getElementById('entry-input-two').value;
+    let length = document.getElementById('entry-input-three').value;
+    let language = document.getElementById('entry-input-four').value;
+    let read = document.getElementById('entry-input-five').checked;
+    // if user is logged in, add to db THEN create DOM object
+    // else, create DOM object
+    if (loggedIn == true) {
+        const book = {title: title, author: author, length: length, language: language, read: read}
+        const id = addBookToDb(userId, book)
+        new Book(title, author, length, language, read, id)
+    } else {
+        new Book(title, author, length, language, read)
+    }
     entry.close();
 };
 
@@ -31519,7 +31549,7 @@ const initBooksLoggedOut = () => {
         let library = localStorage.getObj(0);
         for (let i = 0; i < library.length; i++) {
             const book = library[i]
-            new Book(book.title, book.author, book.pages, book.language, book.read)
+            new Book(book.title, book.author, book.length, book.language, book.read)
         };
     // If local storage is empty, add & render default example books
     } else {
@@ -31536,7 +31566,8 @@ const initBooksLoggedIn = async (userId) => {
     // Add & render books from retrieved array of book objects
     for (let i = 0; i < library.length; i++) {
         const book = library[i]
-        new Book(book.title, book.author, book.pages, book.language, book.read, book.id)
+        console.log(book)
+        new Book(book.title, book.author, book.length, book.language, book.read, book.id)
     };
 }
 /******/ })()
