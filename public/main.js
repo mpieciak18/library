@@ -30731,27 +30731,20 @@ const app = initializeApp(firebaseConfig)
 
 // Initialize Firestore
 const firebase_db = index_esm2017_Lc()
-let users = index_esm2017_Vc(firebase_db, "users")
-console.log(users)
-let user = index_esm2017_Dc(users, "Z11Xd55BGBWfx39dLEzKqmDmS483")
-console.log(user)
-let books = index_esm2017_Vc(user, "books")
-console.log(books)
-console.log(wh(books))
-const retArr = async () => {
-    const booksQuery = await wh(books)
-    booksQuery.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data())
-    })
-}
-retArr()
 
 // Query database and return array of books from user
 const retrieveBooks = async (userId) => {
-    const users = collection(firebase_db, "users")
-    const user = doc(users, userId)
-    const books = collection(user, "books")
-    const booksArr = await getDocs(books)
+    const users = index_esm2017_Vc(firebase_db, "users")
+    const user = index_esm2017_Dc(users, userId)
+    const books = index_esm2017_Vc(user, "books")
+    const booksQuery = await wh(books)
+    let booksArr = []
+    booksQuery.forEach((doc) => {
+        const bookObj = doc.data()
+        bookObj.id = doc.id
+        booksArr = [...booksArr, bookObj]
+    })
+    return booksArr
 }
 
 // Register, and then sign in, user
@@ -31152,8 +31145,6 @@ let login = {
 
 ;// CONCATENATED MODULE: ./src/app.js
 // Import Firebase functions
-// import { initFirebase } from './modules/firebase/initFirebase.js';
-
 
 
 
@@ -31178,7 +31169,9 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         loggedIn = true
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
-        userId == user.uid
+        userId = user.uid
+        console.log(userId)
+        initBooksLoggedIn(userId)
     } else {
         loggedIn = false
         renderLoginMenu(loggedIn, login.open, register.open)
@@ -31523,15 +31516,27 @@ ascDescDropdown.addEventListener('change', ascDescChange);
 const initBooksLoggedOut = () => {
     // If local storage is not empty, render books from local storage
     if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
-        let newLib = localStorage.getObj(0);
-        for (let i = 0; i < newLib.length; i++) {
-            new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
+        let library = localStorage.getObj(0);
+        for (let i = 0; i < library.length; i++) {
+            const book = library[i]
+            new Book(book.title, book.author, book.pages, book.language, book.read)
         };
     // If local storage is empty, add & render default example books
     } else {
         new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
         new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
         new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
+    };
+}
+
+// Initialize book objects & render to DOM while logged in
+const initBooksLoggedIn = async (userId) => {
+    // Retrieve array of book objects from user's collection in firestore
+    const library = await retrieveBooks(userId)
+    // Add & render books from retrieved array of book objects
+    for (let i = 0; i < library.length; i++) {
+        const book = library[i]
+        new Book(book.title, book.author, book.pages, book.language, book.read, book.id)
     };
 }
 /******/ })()

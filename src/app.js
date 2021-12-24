@@ -1,7 +1,5 @@
 // Import Firebase functions
-// import { initFirebase } from './modules/firebase/initFirebase.js';
-import { app } from './firebase.js';
-import { createUser, signinUser } from './firebase.js';
+import { app, retrieveBooks, createUser, signinUser } from './firebase.js';
 import { renderLoginMenu } from './modules/components/loginMenu.js';
 import { getAuth } from 'firebase/auth';
 import {  } from 'firebase/firestore';
@@ -25,7 +23,8 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         loggedIn = true
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
-        userId == user.uid
+        userId = user.uid
+        initBooksLoggedIn(userId)
     } else {
         loggedIn = false
         renderLoginMenu(loggedIn, login.open, register.open)
@@ -370,14 +369,26 @@ ascDescDropdown.addEventListener('change', ascDescChange);
 const initBooksLoggedOut = () => {
     // If local storage is not empty, render books from local storage
     if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
-        let newLib = localStorage.getObj(0);
-        for (let i = 0; i < newLib.length; i++) {
-            new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
+        let library = localStorage.getObj(0);
+        for (let i = 0; i < library.length; i++) {
+            const book = library[i]
+            new Book(book.title, book.author, book.pages, book.language, book.read)
         };
     // If local storage is empty, add & render default example books
     } else {
         new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
         new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
         new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
+    };
+}
+
+// Initialize book objects & render to DOM while logged in
+const initBooksLoggedIn = async (userId) => {
+    // Retrieve array of book objects from user's collection in firestore
+    const library = await retrieveBooks(userId)
+    // Add & render books from retrieved array of book objects
+    for (let i = 0; i < library.length; i++) {
+        const book = library[i]
+        new Book(book.title, book.author, book.pages, book.language, book.read, book.id)
     };
 }
