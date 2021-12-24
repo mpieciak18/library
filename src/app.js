@@ -1,11 +1,11 @@
 // Import Firebase functions
-import { firebaseApp } from './modules/firebase/initFirebase.js';
-import { createUser, signinUser } from './modules/firebase/auth.js';
+// import { initFirebase } from './modules/firebase/initFirebase.js';
+import { app } from './firebase.js';
+import { createUser, signinUser } from './firebase.js';
 import { renderLoginMenu } from './modules/components/loginMenu.js';
 import { getAuth } from 'firebase/auth';
 import {  } from 'firebase/firestore';
 
-// Create auth from Firebase
 const auth = getAuth()
 
 // Import Entry, Register, & Login Pop-Up Modules, Then Create Elements
@@ -16,15 +16,18 @@ window.addEventListener("DOMContentLoaded", register.init());
 import { login } from './modules/popups/login.js';
 window.addEventListener("DOMContentLoaded", login.init());
 
+// Initialize loggedIn variable
+let loggedIn = false
+
 // Attach auth state change listener, which updates login menu area
 auth.onAuthStateChanged((user) => {
     if (user) {
-        console.log(true)
-        console.log(user.email)
-        renderLoginMenu(true, user.email, () => auth.signOut())
+        loggedIn = true
+        renderLoginMenu(loggedIn, user.email, () => auth.signOut())
     } else {
-        console.log(false)
-        renderLoginMenu(false, login.open, register.open)
+        loggedIn = false
+        renderLoginMenu(loggedIn, login.open, register.open)
+        initBooksLoggedOut()
     }
 })
 
@@ -345,14 +348,16 @@ entry.pForm.addEventListener('submit', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
 
-// Initialize Book Instances
-if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
-    let newLib = localStorage.getObj(0);
-    for (let i = 0; i < newLib.length; i++) {
-        new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
-      };
-} else {
-    new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
-    new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
-    new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
-};
+// Initialize book objects & render to DOM while logged out
+const initBooksLoggedOut = () => {
+    if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
+        let newLib = localStorage.getObj(0);
+        for (let i = 0; i < newLib.length; i++) {
+            new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
+        };
+    } else {
+        new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
+        new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
+        new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
+    };
+}

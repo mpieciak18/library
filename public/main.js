@@ -606,7 +606,7 @@ function index_esm2017_getUA() {
  * in the Ripple emulator) nor Cordova `onDeviceReady`, which would normally
  * wait for a callback.
  */
-function index_esm2017_isMobileCordova() {
+function isMobileCordova() {
     return (typeof window !== 'undefined' &&
         // @ts-ignore Setting up an broadly applicable index signature for Window
         // just to deal with this case would probably be a bad idea.
@@ -633,7 +633,7 @@ function isNode() {
 function isBrowser() {
     return typeof self === 'object' && self.self === self;
 }
-function index_esm2017_isBrowserExtension() {
+function isBrowserExtension() {
     const runtime = typeof chrome === 'object'
         ? chrome.runtime
         : typeof browser === 'object'
@@ -646,20 +646,20 @@ function index_esm2017_isBrowserExtension() {
  *
  * @return true if ReactNative environment is detected.
  */
-function index_esm2017_isReactNative() {
+function isReactNative() {
     return (typeof navigator === 'object' && navigator['product'] === 'ReactNative');
 }
 /** Detects Electron apps. */
-function index_esm2017_isElectron() {
+function isElectron() {
     return index_esm2017_getUA().indexOf('Electron/') >= 0;
 }
 /** Detects Internet Explorer. */
-function index_esm2017_isIE() {
+function isIE() {
     const ua = index_esm2017_getUA();
     return ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
 }
 /** Detects Universal Windows Platform apps. */
-function index_esm2017_isUWP() {
+function isUWP() {
     return index_esm2017_getUA().indexOf('MSAppHost/') >= 0;
 }
 /**
@@ -3003,7 +3003,7 @@ function initializeApp(options, rawConfig = {}) {
  *
  * @public
  */
-function index_esm2017_getApp(name = index_esm2017_DEFAULT_ENTRY_NAME) {
+function getApp(name = index_esm2017_DEFAULT_ENTRY_NAME) {
     const app = _apps.get(name);
     if (!app) {
         throw ERROR_FACTORY.create("no-app" /* NO_APP */, { appName: name });
@@ -3169,23 +3169,6 @@ var index_esm_version = "9.6.1";
 registerVersion(index_esm_name, index_esm_version, 'app');
 //# sourceMappingURL=index.esm.js.map
 
-;// CONCATENATED MODULE: ./src/modules/firebase/initFirebase.js
-
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyD27BaorWNp_7HTAcFpfcQJEU2k6O75HpU",
-    authDomain: "library-92910.firebaseapp.com",
-    projectId: "library-92910",
-    storageBucket: "library-92910.appspot.com",
-    messagingSenderId: "778596230620",
-    appId: "1:778596230620:web:031ba101402eb1b8185b19"
-  };
-  
-  // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig);
-
-  
 ;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -4092,7 +4075,7 @@ function _isOnline() {
         // navigator.onLine behavior unless cordova-plugin-network-information is
         // installed which overwrites the native navigator.onLine value and
         // defines navigator.connection.
-        (_isHttpOrHttps() || index_esm2017_isBrowserExtension() || 'connection' in navigator)) {
+        (_isHttpOrHttps() || isBrowserExtension() || 'connection' in navigator)) {
         return navigator.onLine;
     }
     // If we can't determine the state, assume it is online.
@@ -4140,7 +4123,7 @@ class Delay {
         this.longDelay = longDelay;
         // Internal error when improperly initialized.
         debugAssert(longDelay > shortDelay, 'Short delay should be less than long delay!');
-        this.isMobile = index_esm2017_isMobileCordova() || index_esm2017_isReactNative();
+        this.isMobile = isMobileCordova() || isReactNative();
     }
     get() {
         if (!_isOnline()) {
@@ -5486,7 +5469,7 @@ function _isIOSStandalone(ua = index_esm2017_getUA()) {
     return _isIOS(ua) && !!((_a = window.navigator) === null || _a === void 0 ? void 0 : _a.standalone);
 }
 function _isIE10() {
-    return index_esm2017_isIE() && document.documentMode === 10;
+    return isIE() && document.documentMode === 10;
 }
 function _isMobileBrowser(ua = index_esm2017_getUA()) {
     // TODO: implement getBrowserName equivalent for OS.
@@ -12739,7 +12722,7 @@ function registerAuth(clientPlatform) {
  *
  * @public
  */
-function getAuth(app = index_esm2017_getApp()) {
+function getAuth(app = getApp()) {
     const provider = index_esm2017_getProvider(app, 'auth');
     if (provider.isInitialized()) {
         return provider.getImmediate();
@@ -12770,75 +12753,6 @@ registerAuth("Browser" /* BROWSER */);
 ;// CONCATENATED MODULE: ./node_modules/firebase/auth/dist/index.esm.js
 
 //# sourceMappingURL=index.esm.js.map
-
-;// CONCATENATED MODULE: ./src/modules/firebase/auth.js
-// Create user with email / password function
-
-
-// Register, and then sign in, user
-const createUser = async (auth, email, password) => {
-    try {
-        await createUserWithEmailAndPassword(auth, email, password)
-        const userCredential = await signInWithEmailAndPassword(auth, email, password)
-        const user = userCredential.user
-    } catch(error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    }
-}
-
-// Sign in user
-const signinUser = async (auth, email, password) => {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password)
-        const user = userCredential.user
-        console.log(user)
-    } catch(error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    }
-}
-
-
-;// CONCATENATED MODULE: ./src/modules/components/loginMenu.js
-const renderLoginMenu = (loginStatus, menuPartOne, menuPartTwo) => {
-    const topLeftBottom = document.getElementById('top-left-bottom')
-    topLeftBottom.innerHTML = ''
-    if (loginStatus == false) {
-        // Set class for parent div
-        topLeftBottom.classList = 'logged-out'
-        // Create login button
-        const login = document.createElement('div')
-        login.innerText = 'Sign In'
-        login.id = 'login-button'
-        login.addEventListener('click', menuPartOne)
-        // Create register button
-        const register = document.createElement('div')
-        register.innerText = 'Register'
-        register.id = 'register-button'
-        register.addEventListener('click', menuPartTwo)
-        // Append buttons to parent div
-        topLeftBottom.append(login)
-        topLeftBottom.append(register)
-    } else {
-        // Set class for parent div
-        topLeftBottom.classList = 'logged-in'
-        // Create welcome message
-        const welcome = document.createElement('div')
-        welcome.innerText = `Welcome, ${menuPartOne}!`
-        welcome.id = 'welcome-message'
-        // Create logout button
-        const logout = document.createElement('div')
-        logout.innerText = 'Sign Out'
-        logout.id = 'logout-button'
-        logout.addEventListener('click', () => menuPartTwo())
-        // Append buttons to parent div
-        console.log (welcome, logout)
-        topLeftBottom.append(welcome)
-        topLeftBottom.append(logout)
-    }
-}
-
 
 ;// CONCATENATED MODULE: ./node_modules/@firebase/webchannel-wrapper/dist/index.esm2017.js
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof __webpack_require__.g !== 'undefined' ? __webpack_require__.g : typeof self !== 'undefined' ? self : {};
@@ -12943,8 +12857,8 @@ t(Z,Sd);Z.prototype.xa=function(){D(this.g,"a");};Z.prototype.wa=function(a){D(t
  limitations under the License.
 */
 Td.prototype.createWebChannel=Td.prototype.g;Y.prototype.send=Y.prototype.u;Y.prototype.open=Y.prototype.m;Y.prototype.close=Y.prototype.close;Wb.NO_ERROR=0;Wb.TIMEOUT=8;Wb.HTTP_ERROR=6;Xb.COMPLETE="complete";$b.EventType=L;L.OPEN="a";L.CLOSE="b";L.ERROR="c";L.MESSAGE="d";C.prototype.listen=C.prototype.N;X.prototype.listenOnce=X.prototype.O;X.prototype.getLastError=X.prototype.La;X.prototype.getLastErrorCode=X.prototype.Da;X.prototype.getStatus=X.prototype.ba;X.prototype.getResponseJson=X.prototype.Qa;
-X.prototype.getResponseText=X.prototype.ga;X.prototype.send=X.prototype.ea;var index_esm2017_createWebChannelTransport = esm.createWebChannelTransport=function(){return new Td};var index_esm2017_getStatEventTarget = esm.getStatEventTarget=function(){return Sb()};var index_esm2017_ErrorCode = esm.ErrorCode=Wb;var index_esm2017_EventType = esm.EventType=Xb;var index_esm2017_Event = esm.Event=H;var index_esm2017_Stat = esm.Stat={rb:0,ub:1,vb:2,Ob:3,Tb:4,Qb:5,Rb:6,Pb:7,Nb:8,Sb:9,PROXY:10,NOPROXY:11,Lb:12,Hb:13,Ib:14,Gb:15,Jb:16,Kb:17,nb:18,mb:19,ob:20};var index_esm2017_FetchXmlHttpFactory = esm.FetchXmlHttpFactory=pd;var index_esm2017_WebChannel = esm.WebChannel=$b;
-var index_esm2017_XhrIo = esm.XhrIo=X;
+X.prototype.getResponseText=X.prototype.ga;X.prototype.send=X.prototype.ea;var createWebChannelTransport = esm.createWebChannelTransport=function(){return new Td};var getStatEventTarget = esm.getStatEventTarget=function(){return Sb()};var ErrorCode = esm.ErrorCode=Wb;var EventType = esm.EventType=Xb;var Event = esm.Event=H;var Stat = esm.Stat={rb:0,ub:1,vb:2,Ob:3,Tb:4,Qb:5,Rb:6,Pb:7,Nb:8,Sb:9,PROXY:10,NOPROXY:11,Lb:12,Hb:13,Ib:14,Gb:15,Jb:16,Kb:17,nb:18,mb:19,ob:20};var FetchXmlHttpFactory = esm.FetchXmlHttpFactory=pd;var WebChannel = esm.WebChannel=$b;
+var XhrIo = esm.XhrIo=X;
 
 
 //# sourceMappingURL=index.esm2017.js.map
@@ -13076,7 +12990,7 @@ function index_esm2017_F(t, ...e) {
 /**
  * @internal
  */ function index_esm2017_O(t, ...e) {
-    if (index_esm2017_N.logLevel <= LogLevel.WARN) {
+    if (index_esm2017_N.logLevel <= index_esm2017_LogLevel.WARN) {
         const n = e.map(index_esm2017_M);
         index_esm2017_N.warn(`Firestore (${index_esm2017_C}): ${t}`, ...n);
     }
@@ -14042,7 +13956,7 @@ const wt = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
 /**
  * A dot-separated path for navigating sub-objects within a document.
  * @internal
- */ class _t extends (/* unused pure expression or super */ null && (ft)) {
+ */ class _t extends ft {
     construct(t, e, n) {
         return new _t(t, e, n);
     }
@@ -14261,7 +14175,7 @@ function gt() {
 
 yt.EMPTY_BYTE_STRING = new yt("");
 
-const pt = (/* unused pure expression or super */ null && (new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/)));
+const pt = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
 
 /**
  * Converts the possible Proto values for a timestamp value into a "seconds and
@@ -15039,7 +14953,7 @@ function Xt(t) {
     return St.isDocumentKey(t.path) && null === t.collectionGroup && 0 === t.filters.length;
 }
 
-class Zt extends (/* unused pure expression or super */ null && (class {})) {
+class Zt extends class {} {
     constructor(t, e, n) {
         super(), this.field = t, this.op = e, this.value = n;
     }
@@ -15093,7 +15007,7 @@ function te(t) {
     return t.field.canonicalString() + t.op.toString() + $t(t.value);
 }
 
-class ee extends (/* unused pure expression or super */ null && (Zt)) {
+class ee extends Zt {
     constructor(t, e, n) {
         super(t, e, n), this.key = St.fromName(n.referenceValue);
     }
@@ -15103,7 +15017,7 @@ class ee extends (/* unused pure expression or super */ null && (Zt)) {
     }
 }
 
-/** Filter that matches on key fields within an array. */ class ne extends (/* unused pure expression or super */ null && (Zt)) {
+/** Filter that matches on key fields within an array. */ class ne extends Zt {
     constructor(t, e) {
         super(t, "in" /* IN */ , e), this.keys = ie("in" /* IN */ , e);
     }
@@ -15112,7 +15026,7 @@ class ee extends (/* unused pure expression or super */ null && (Zt)) {
     }
 }
 
-/** Filter that matches on key fields not present within an array. */ class se extends (/* unused pure expression or super */ null && (Zt)) {
+/** Filter that matches on key fields not present within an array. */ class se extends Zt {
     constructor(t, e) {
         super(t, "not-in" /* NOT_IN */ , e), this.keys = ie("not-in" /* NOT_IN */ , e);
     }
@@ -15126,7 +15040,7 @@ function ie(t, e) {
     return ((null === (n = e.arrayValue) || void 0 === n ? void 0 : n.values) || []).map((t => St.fromName(t.referenceValue)));
 }
 
-/** A Filter that implements the array-contains operator. */ class re extends (/* unused pure expression or super */ null && (Zt)) {
+/** A Filter that implements the array-contains operator. */ class re extends Zt {
     constructor(t, e) {
         super(t, "array-contains" /* ARRAY_CONTAINS */ , e);
     }
@@ -15136,7 +15050,7 @@ function ie(t, e) {
     }
 }
 
-/** A Filter that implements the IN operator. */ class oe extends (/* unused pure expression or super */ null && (Zt)) {
+/** A Filter that implements the IN operator. */ class oe extends Zt {
     constructor(t, e) {
         super(t, "in" /* IN */ , e);
     }
@@ -15146,7 +15060,7 @@ function ie(t, e) {
     }
 }
 
-/** A Filter that implements the not-in operator. */ class ae extends (/* unused pure expression or super */ null && (Zt)) {
+/** A Filter that implements the not-in operator. */ class ae extends Zt {
     constructor(t, e) {
         super(t, "not-in" /* NOT_IN */ , e);
     }
@@ -15159,7 +15073,7 @@ function ie(t, e) {
     }
 }
 
-/** A Filter that implements the array-contains-any operator. */ class ce extends (/* unused pure expression or super */ null && (Zt)) {
+/** A Filter that implements the array-contains-any operator. */ class ce extends Zt {
     constructor(t, e) {
         super(t, "array-contains-any" /* ARRAY_CONTAINS_ANY */ , e);
     }
@@ -15570,9 +15484,9 @@ function Ce(t, e, n) {
 }
 
 /** Transforms a value into a server-generated timestamp. */
-class Le extends (/* unused pure expression or super */ null && ($e)) {}
+class Le extends $e {}
 
-/** Transforms an array value via a union operation. */ class Be extends (/* unused pure expression or super */ null && ($e)) {
+/** Transforms an array value via a union operation. */ class Be extends $e {
     constructor(t) {
         super(), this.elements = t;
     }
@@ -15588,7 +15502,7 @@ function Ue(t, e) {
     };
 }
 
-/** Transforms an array value via a remove operation. */ class qe extends (/* unused pure expression or super */ null && ($e)) {
+/** Transforms an array value via a remove operation. */ class qe extends $e {
     constructor(t) {
         super(), this.elements = t;
     }
@@ -15609,7 +15523,7 @@ function Ke(t, e) {
  * transforms. Converts all field values to integers or doubles, but unlike the
  * backend does not cap integer values at 2^63. Instead, JavaScript number
  * arithmetic is used and precision loss can occur for values greater than 2^53.
- */ class je extends (/* unused pure expression or super */ null && ($e)) {
+ */ class je extends $e {
     constructor(t, e) {
         super(), this.k = t, this.N = e;
     }
@@ -15882,14 +15796,14 @@ function nn(t, e) {
 /**
  * A mutation that creates or replaces the document at the given key with the
  * object value contents.
- */ class rn extends (/* unused pure expression or super */ null && (Xe)) {
+ */ class rn extends Xe {
     constructor(t, e, n, s = []) {
         super(), this.key = t, this.value = e, this.precondition = n, this.fieldTransforms = s, 
         this.type = 0 /* Set */;
     }
 }
 
-class on extends (/* unused pure expression or super */ null && (Xe)) {
+class on extends Xe {
     constructor(t, e, n, s, i = []) {
         super(), this.key = t, this.data = e, this.fieldMask = n, this.precondition = s, 
         this.fieldTransforms = i, this.type = 1 /* Patch */;
@@ -15946,13 +15860,13 @@ function an(t) {
     return s;
 }
 
-/** A mutation that deletes the document at the given key. */ class hn extends (/* unused pure expression or super */ null && (Xe)) {
+/** A mutation that deletes the document at the given key. */ class hn extends Xe {
     constructor(t, e) {
         super(), this.key = t, this.precondition = e, this.type = 2 /* Delete */ , this.fieldTransforms = [];
     }
 }
 
-class ln extends (/* unused pure expression or super */ null && (Xe)) {
+class ln extends Xe {
     constructor(t, e) {
         super(), this.key = t, this.precondition = e, this.type = 3 /* Verify */ , this.fieldTransforms = [];
     }
@@ -21731,7 +21645,7 @@ class ar {
             return 0 === t.filters.length && null === t.limit && null == t.startAt && null == t.endAt && (0 === t.explicitOrderBy.length || 1 === t.explicitOrderBy.length && t.explicitOrderBy[0].field.isKeyField());
         }(e) || n.isEqual(ct.min()) ? this.Mn(t, e) : this.On.vn(t, s).next((i => {
             const r = this.Ln(e, i);
-            return (ye(e) || pe(e)) && this.Bn(e.limitType, r, s, n) ? this.Mn(t, e) : (index_esm2017_k() <= LogLevel.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), Ve(e)), 
+            return (ye(e) || pe(e)) && this.Bn(e.limitType, r, s, n) ? this.Mn(t, e) : (index_esm2017_k() <= index_esm2017_LogLevel.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), Ve(e)), 
             this.On.getDocumentsMatchingQuery(t, e, n).next((t => (
             // We merge `previousResults` into `updateResults`, since
             // `updateResults` is already a DocumentMap. If a document is
@@ -21777,7 +21691,7 @@ class ar {
         return !!i && (i.hasPendingWrites || i.version.compareTo(s) > 0);
     }
     Mn(t, e) {
-        return index_esm2017_k() <= LogLevel.DEBUG && $("QueryEngine", "Using full collection scan to execute query:", Ve(e)), 
+        return index_esm2017_k() <= index_esm2017_LogLevel.DEBUG && $("QueryEngine", "Using full collection scan to execute query:", Ve(e)), 
         this.On.getDocumentsMatchingQuery(t, e, ct.min());
     }
 }
@@ -22682,7 +22596,7 @@ class Cr {
 /**
  * Handles the details of adding and updating documents in the MemoryRemoteDocumentCache.
  */
-class Nr extends (/* unused pure expression or super */ null && (zi)) {
+class Nr extends zi {
     constructor(t) {
         super(), this.De = t;
     }
@@ -22883,7 +22797,7 @@ class xr {
 /**
  * Memory persistence is not actually transactional, but future implementations
  * may have transaction-scoped state.
- */ class $r extends (/* unused pure expression or super */ null && (Ws)) {
+ */ class $r extends Ws {
     constructor(t) {
         super(), this.currentSequenceNumber = t;
     }
@@ -23659,7 +23573,7 @@ class Jr {
  * Base class for all Rest-based connections to the backend (WebChannel and
  * HTTP).
  */
-(/* unused pure expression or super */ null && (class {
+class {
     constructor(t) {
         this.databaseInfo = t, this.databaseId = t.databaseId;
         const e = t.ssl ? "https" : "http";
@@ -23696,7 +23610,7 @@ class Jr {
         const n = Hr[t];
         return `${this.Mi}/v1/${e}:${n}`;
     }
-})) {
+} {
     constructor(t) {
         super(t), this.forceLongPolling = t.forceLongPolling, this.autoDetectLongPolling = t.autoDetectLongPolling, 
         this.useFetchStreams = t.useFetchStreams;
@@ -24329,7 +24243,7 @@ class no {
  * okay to use the same streamToken for the calls to writeMutations.
  *
  * TODO(b/33271235): Use proto types
- */ class io extends (/* unused pure expression or super */ null && (no)) {
+ */ class io extends no {
     constructor(t, e, n, s, i, r) {
         super(t, "write_stream_connection_backoff" /* WriteStreamConnectionBackoff */ , "write_stream_idle" /* WriteStreamIdle */ , "health_check_timeout" /* HealthCheckTimeout */ , e, n, s, r), 
         this.k = i, this.Vr = !1;
@@ -24408,7 +24322,7 @@ class no {
  * An implementation of Datastore that exposes additional state for internal
  * consumption.
  */
-class ro extends (/* unused pure expression or super */ null && (class {})) {
+class ro extends class {} {
     constructor(t, e, n, s) {
         super(), this.authCredentials = t, this.appCheckCredentials = e, this.ir = n, this.k = s, 
         this.$r = !1;
@@ -27911,7 +27825,7 @@ function index_esm2017_Rc(t, e, n, s = {}) {
 /**
  * A `CollectionReference` object can be used for adding documents, getting
  * document references, and querying for documents (using {@link query}).
- */ class index_esm2017_vc extends (/* unused pure expression or super */ null && (index_esm2017_bc)) {
+ */ class index_esm2017_vc extends index_esm2017_bc {
     /** @hideconstructor */
     constructor(t, e, n) {
         super(t, e, ge(n)), this._path = n, 
@@ -27941,7 +27855,7 @@ function index_esm2017_Rc(t, e, n, s = {}) {
 }
 
 function index_esm2017_Vc(t, e, ...n) {
-    if (t = getModularInstance(t), _c("collection", "path", e), t instanceof index_esm2017_Ac) {
+    if (t = index_esm2017_getModularInstance(t), _c("collection", "path", e), t instanceof index_esm2017_Ac) {
         const s = dt.fromString(e, ...n);
         return index_esm2017_yc(s), new index_esm2017_vc(t, /* converter= */ null, s);
     }
@@ -27979,7 +27893,7 @@ function index_esm2017_Vc(t, e, ...n) {
 }
 
 function index_esm2017_Dc(t, e, ...n) {
-    if (t = getModularInstance(t), 
+    if (t = index_esm2017_getModularInstance(t), 
     // We allow omission of 'pathString' but explicitly prohibit passing in both
     // 'undefined' and 'null'.
     1 === arguments.length && (e = st.A()), _c("doc", "path", e), t instanceof index_esm2017_Ac) {
@@ -28398,7 +28312,7 @@ class index_esm2017_Oc extends index_esm2017_Ac {
  * instance is associated with.
  * @returns The {@link Firestore} instance of the provided app.
  */ function index_esm2017_Lc(e = getApp()) {
-    return _getProvider(e, "firestore").getImmediate();
+    return index_esm2017_getProvider(e, "firestore").getImmediate();
 }
 
 /**
@@ -29209,7 +29123,7 @@ class gu extends (/* unused pure expression or super */ null && (nu)) {
     if (Au(
     // Unwrap the API type from the Compat SDK. This will return the API type
     // from firestore-exp.
-    t = getModularInstance(t))) return Ru("Unsupported field value:", e, t), Iu(t, e);
+    t = index_esm2017_getModularInstance(t))) return Ru("Unsupported field value:", e, t), Iu(t, e);
     if (t instanceof nu) 
     // FieldValues usually parse into transforms (except FieldValue.delete())
     // in which case we do not want to include this field in our parsed data
@@ -29268,7 +29182,7 @@ class gu extends (/* unused pure expression or super */ null && (nu)) {
         }(t, e);
     }
     return function(t, e) {
-        if (null === (t = getModularInstance(t))) return {
+        if (null === (t = index_esm2017_getModularInstance(t))) return {
             nullValue: "NULL_VALUE"
         };
         if ("number" == typeof t) return xe(e.k, t);
@@ -29354,7 +29268,7 @@ function Ru(t, e, n) {
     if ((
     // If required, replace the FieldPath Compat class with with the firestore-exp
     // FieldPath.
-    e = getModularInstance(e)) instanceof index_esm2017_Zc) return e._internalPath;
+    e = index_esm2017_getModularInstance(e)) instanceof index_esm2017_Zc) return e._internalPath;
     if ("string" == typeof e) return vu(t, e);
     throw Vu("Field path arguments must be of type string or FieldPath.", t, 
     /* hasConverter= */ !1, 
@@ -29363,7 +29277,7 @@ function Ru(t, e, n) {
 
 /**
  * Matches any characters in a field path string that are reserved.
- */ const bu = (/* unused pure expression or super */ null && (new RegExp("[~\\*/\\[\\]]")));
+ */ const bu = new RegExp("[~\\*/\\[\\]]");
 
 /**
  * Wraps fromDotSeparatedString with an error message about the method that
@@ -30796,6 +30710,99 @@ function Ih(t, e) {
 
 //# sourceMappingURL=index.esm.js.map
 
+;// CONCATENATED MODULE: ./src/firebase.js
+// Import firebase modules
+
+
+
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyD27BaorWNp_7HTAcFpfcQJEU2k6O75HpU",
+    authDomain: "library-92910.firebaseapp.com",
+    projectId: "library-92910",
+    storageBucket: "library-92910.appspot.com",
+    messagingSenderId: "778596230620",
+    appId: "1:778596230620:web:031ba101402eb1b8185b19"
+  };
+  
+// Initialize Firebase app
+const app = initializeApp(firebaseConfig)
+
+// Initialize Firestore
+const firebase_db = index_esm2017_Lc()
+let users = index_esm2017_Vc(firebase_db, "users")
+console.log(users)
+let user = index_esm2017_Dc(users, "Z11Xd55BGBWfx39dLEzKqmDmS483")
+console.log(user)
+let books = index_esm2017_Vc(user, "books")
+console.log(books)
+
+// Register, and then sign in, user
+const createUser = async (auth, email, password) => {
+    try {
+        await createUserWithEmailAndPassword(auth, email, password)
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+        const uid = user.uid
+        await gh(index_esm2017_Dc(firebase_db, 'users', uid), {email: `${email}`})
+    } catch(error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    }
+}
+
+// Sign in user
+const signinUser = async (auth, email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const user = userCredential.user
+    } catch(error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    }
+}
+
+
+;// CONCATENATED MODULE: ./src/modules/components/loginMenu.js
+const renderLoginMenu = (loginStatus, menuPartOne, menuPartTwo) => {
+    const topLeftBottom = document.getElementById('top-left-bottom')
+    topLeftBottom.innerHTML = ''
+    if (loginStatus == false) {
+        // Set class for parent div
+        topLeftBottom.classList = 'logged-out'
+        // Create login button
+        const login = document.createElement('div')
+        login.innerText = 'Sign In'
+        login.id = 'login-button'
+        login.addEventListener('click', menuPartOne)
+        // Create register button
+        const register = document.createElement('div')
+        register.innerText = 'Register'
+        register.id = 'register-button'
+        register.addEventListener('click', menuPartTwo)
+        // Append buttons to parent div
+        topLeftBottom.append(login)
+        topLeftBottom.append(register)
+    } else {
+        // Set class for parent div
+        topLeftBottom.classList = 'logged-in'
+        // Create welcome message
+        const welcome = document.createElement('div')
+        welcome.innerText = `Welcome, ${menuPartOne}!`
+        welcome.id = 'welcome-message'
+        // Create logout button
+        const logout = document.createElement('div')
+        logout.innerText = 'Sign Out'
+        logout.id = 'logout-button'
+        logout.addEventListener('click', () => menuPartTwo())
+        // Append buttons to parent div
+        topLeftBottom.append(welcome)
+        topLeftBottom.append(logout)
+    }
+}
+
+
 ;// CONCATENATED MODULE: ./src/modules/popups/entry.js
 let entry = {
 
@@ -31129,13 +31136,13 @@ let login = {
 
 ;// CONCATENATED MODULE: ./src/app.js
 // Import Firebase functions
+// import { initFirebase } from './modules/firebase/initFirebase.js';
 
 
 
 
 
 
-// Create auth from Firebase
 const auth = getAuth()
 
 // Import Entry, Register, & Login Pop-Up Modules, Then Create Elements
@@ -31146,15 +31153,18 @@ window.addEventListener("DOMContentLoaded", register.init());
 
 window.addEventListener("DOMContentLoaded", login.init());
 
+// Initialize loggedIn variable
+let loggedIn = false
+
 // Attach auth state change listener, which updates login menu area
 auth.onAuthStateChanged((user) => {
     if (user) {
-        console.log(true)
-        console.log(user.email)
-        renderLoginMenu(true, user.email, () => auth.signOut())
+        loggedIn = true
+        renderLoginMenu(loggedIn, user.email, () => auth.signOut())
     } else {
-        console.log(false)
-        renderLoginMenu(false, login.open, register.open)
+        loggedIn = false
+        renderLoginMenu(loggedIn, login.open, register.open)
+        initBooksLoggedOut()
     }
 })
 
@@ -31475,16 +31485,18 @@ entry.pForm.addEventListener('submit', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
 
-// Initialize Book Instances
-if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
-    let newLib = localStorage.getObj(0);
-    for (let i = 0; i < newLib.length; i++) {
-        new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
-      };
-} else {
-    new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
-    new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
-    new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
-};
+// Initialize book objects & render to DOM while logged out
+const initBooksLoggedOut = () => {
+    if (localStorage.getObj(0) != null && localStorage.getObj(0).length != 0) {
+        let newLib = localStorage.getObj(0);
+        for (let i = 0; i < newLib.length; i++) {
+            new Book(newLib[i].title, newLib[i].author, newLib[i].pages, newLib[i].language, newLib[i].read)
+        };
+    } else {
+        new Book('12 Rules for Life: An Antidote to Chaos', 'Jordan B. Peterson', '448', 'English', true);
+        new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
+        new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
+    };
+}
 /******/ })()
 ;

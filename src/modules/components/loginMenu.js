@@ -30,7 +30,6 @@ const renderLoginMenu = (loginStatus, menuPartOne, menuPartTwo) => {
         logout.id = 'logout-button'
         logout.addEventListener('click', () => menuPartTwo())
         // Append buttons to parent div
-        console.log (welcome, logout)
         topLeftBottom.append(welcome)
         topLeftBottom.append(logout)
     }
