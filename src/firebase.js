@@ -4,7 +4,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword
 } from 'firebase/auth';
-import { getFirestore, doc, setDoc, collection, getDocs, addDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -21,15 +21,6 @@ const app = initializeApp(firebaseConfig)
 
 // Initialize Firestore
 const db = getFirestore()
-const getMethods = (obj) => {
-    let properties = new Set()
-    let currentObj = obj
-    do {
-      Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
-    } while ((currentObj = Object.getPrototypeOf(currentObj)))
-    return [...properties.keys()].filter(item => typeof obj[item] === 'function')
-  }
-console.log(getMethods(db))
 
 // Query database and return array of books from user
 const retrieveBooks = async (userId) => {
@@ -62,6 +53,15 @@ const addBookToDb = async (userId, book) => {
     return newBookRef.uid
 }
 
+// Delete book from database
+const delBookFromDb = async (userId, bookId) => {
+    const users = collection(db, "users")
+    const user = doc(users, userId)
+    const books = collection(user, "books")
+    const book = doc(books, bookId)
+    await deleteDoc(book)
+}
+
 // Register, and then sign in, user
 const createUser = async (auth, email, password) => {
     try {
@@ -87,4 +87,4 @@ const signinUser = async (auth, email, password) => {
     }
 }
 
-export { app, retrieveBooks, addBookToDb, createUser, signinUser }
+export { app, retrieveBooks, addBookToDb, delBookFromDb, createUser, signinUser }

@@ -30731,15 +30731,6 @@ const app = initializeApp(firebaseConfig)
 
 // Initialize Firestore
 const firebase_db = index_esm2017_Lc()
-const getMethods = (obj) => {
-    let properties = new Set()
-    let currentObj = obj
-    do {
-      Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
-    } while ((currentObj = Object.getPrototypeOf(currentObj)))
-    return [...properties.keys()].filter(item => typeof obj[item] === 'function')
-  }
-console.log(getMethods(firebase_db))
 
 // Query database and return array of books from user
 const retrieveBooks = async (userId) => {
@@ -30770,6 +30761,15 @@ const addBookToDb = async (userId, book) => {
     const books = index_esm2017_Vc(user, "books")
     const newBookRef = await Th(books, data)
     return newBookRef.uid
+}
+
+// Delete book from database
+const delBookFromDb = async (userId, bookId) => {
+    const users = index_esm2017_Vc(firebase_db, "users")
+    const user = index_esm2017_Dc(users, userId)
+    const books = index_esm2017_Vc(user, "books")
+    const book = index_esm2017_Dc(books, bookId)
+    await ph(book)
 }
 
 // Register, and then sign in, user
@@ -31185,9 +31185,18 @@ window.addEventListener("DOMContentLoaded", register.init());
 
 window.addEventListener("DOMContentLoaded", login.init());
 
-// Initialize loggedIn variable
+// Initialize variables
 let loggedIn = false
 let userId
+let toggleButtonCounter = 0;
+let bookIdCounter = 0;
+let myLibrary = [];
+const sortChildrenIndex = {
+    'title': 0,
+    'author': 1,
+    'length': 2,
+    'language': 3
+};
 
 // Attach auth state change listener, which updates login menu area
 auth.onAuthStateChanged((user) => {
@@ -31196,6 +31205,7 @@ auth.onAuthStateChanged((user) => {
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
         userId = user.uid
         initBooksLoggedIn(userId)
+        myLibrary = []
     } else {
         loggedIn = false
         renderLoginMenu(loggedIn, login.open, register.open)
@@ -31228,17 +31238,6 @@ Storage.prototype.setObj = function(key, obj) {
 Storage.prototype.getObj = function(key) {
     return JSON.parse(this.getItem(key))
 }
-
-// Initial Variables
-let toggleButtonCounter = 0;
-let bookIdCounter = 0;
-let myLibrary = [];
-const sortChildrenIndex = {
-    'title': 0,
-    'author': 1,
-    'length': 2,
-    'language': 3
-};
 
 // HTML Element for book section
 const bookSection = document.getElementById('book-section');
@@ -31344,16 +31343,21 @@ const changeReadStatus = function(event) {
 // X Button Function
 const deleteBookEntry = function(event) {
     let bookElement = event.target.parentNode;
-    let bookObject = findThisBook(bookElement.id);
-    let indexOfObject = myLibrary.indexOf(bookObject);
-    if (bookObject.read == true) {
+    let isRead = bookElement.children[2].children[1].checked
+    if (isRead == true) {
         booksRead.innerText = (-1 + Number(booksRead.innerText)).toString();
     } else {
         booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
     }; 
     booksTotal.innerText = (-1 + Number(booksTotal.innerText)).toString();
-    myLibrary.splice(indexOfObject, 1);
-    localStorage.setObj(0, myLibrary);
+    if (loggedIn == true) {
+        delBookFromDb(userId, bookElement.id)
+    } else {
+        let bookObject = findThisBook(bookElement.id);
+        let indexOfObject = myLibrary.indexOf(bookObject);
+        myLibrary.splice(indexOfObject, 1);
+        localStorage.setObj(0, myLibrary);
+    }
     bookElement.remove();
 };
 
@@ -31384,7 +31388,7 @@ const Book = function(title, author, length, language, read, id=null) {
     } else if (loggedIn == true && id != null) {
         // Set book id to passed id and add object to book library array
         this.id = id;
-        myLibrary.push(this);
+        // myLibrary.push(this);
     }
     // Create new book element for this Book instance
     createBookElement(this);

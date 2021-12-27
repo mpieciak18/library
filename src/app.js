@@ -1,5 +1,5 @@
 // Import Firebase functions
-import { app, retrieveBooks, addBookToDb, createUser, signinUser } from './firebase.js';
+import { app, retrieveBooks, addBookToDb, delBookFromDb,createUser, signinUser } from './firebase.js';
 import { renderLoginMenu } from './modules/components/loginMenu.js';
 import { getAuth } from 'firebase/auth';
 import {  } from 'firebase/firestore';
@@ -14,9 +14,18 @@ window.addEventListener("DOMContentLoaded", register.init());
 import { login } from './modules/popups/login.js';
 window.addEventListener("DOMContentLoaded", login.init());
 
-// Initialize loggedIn variable
+// Initialize variables
 let loggedIn = false
 let userId
+let toggleButtonCounter = 0;
+let bookIdCounter = 0;
+let myLibrary = [];
+const sortChildrenIndex = {
+    'title': 0,
+    'author': 1,
+    'length': 2,
+    'language': 3
+};
 
 // Attach auth state change listener, which updates login menu area
 auth.onAuthStateChanged((user) => {
@@ -25,6 +34,7 @@ auth.onAuthStateChanged((user) => {
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
         userId = user.uid
         initBooksLoggedIn(userId)
+        myLibrary = []
     } else {
         loggedIn = false
         renderLoginMenu(loggedIn, login.open, register.open)
@@ -57,17 +67,6 @@ Storage.prototype.setObj = function(key, obj) {
 Storage.prototype.getObj = function(key) {
     return JSON.parse(this.getItem(key))
 }
-
-// Initial Variables
-let toggleButtonCounter = 0;
-let bookIdCounter = 0;
-let myLibrary = [];
-const sortChildrenIndex = {
-    'title': 0,
-    'author': 1,
-    'length': 2,
-    'language': 3
-};
 
 // HTML Element for book section
 const bookSection = document.getElementById('book-section');
@@ -173,16 +172,21 @@ const changeReadStatus = function(event) {
 // X Button Function
 const deleteBookEntry = function(event) {
     let bookElement = event.target.parentNode;
-    let bookObject = findThisBook(bookElement.id);
-    let indexOfObject = myLibrary.indexOf(bookObject);
-    if (bookObject.read == true) {
+    let isRead = bookElement.children[2].children[1].checked
+    if (isRead == true) {
         booksRead.innerText = (-1 + Number(booksRead.innerText)).toString();
     } else {
         booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
     }; 
     booksTotal.innerText = (-1 + Number(booksTotal.innerText)).toString();
-    myLibrary.splice(indexOfObject, 1);
-    localStorage.setObj(0, myLibrary);
+    if (loggedIn == true) {
+        delBookFromDb(userId, bookElement.id)
+    } else {
+        let bookObject = findThisBook(bookElement.id);
+        let indexOfObject = myLibrary.indexOf(bookObject);
+        myLibrary.splice(indexOfObject, 1);
+        localStorage.setObj(0, myLibrary);
+    }
     bookElement.remove();
 };
 
@@ -213,7 +217,7 @@ const Book = function(title, author, length, language, read, id=null) {
     } else if (loggedIn == true && id != null) {
         // Set book id to passed id and add object to book library array
         this.id = id;
-        myLibrary.push(this);
+        // myLibrary.push(this);
     }
     // Create new book element for this Book instance
     createBookElement(this);
@@ -395,7 +399,6 @@ const initBooksLoggedIn = async (userId) => {
     // Add & render books from retrieved array of book objects
     for (let i = 0; i < library.length; i++) {
         const book = library[i]
-        console.log(book)
         new Book(book.title, book.author, book.length, book.language, book.read, book.id)
     };
 }
