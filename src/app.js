@@ -1,5 +1,5 @@
 // Import Firebase functions
-import { app, retrieveBooks, addBookToDb, delBookFromDb,createUser, signinUser } from './firebase.js';
+import { app, retrieveBooks, addBookToDb, delBookFromDb, changeReadDbField, returnReadField, createUser, signinUser } from './firebase.js';
 import { renderLoginMenu } from './modules/components/loginMenu.js';
 import { getAuth } from 'firebase/auth';
 import {  } from 'firebase/firestore';
@@ -150,24 +150,46 @@ const findThisBook = function(elementId) {
 };
 
 // Toggle Button Function
-const changeReadStatus = function(event) {
-    let bookItself = event.target.parentNode.parentNode;
+const changeReadStatus = async function(event) {
+    let bookElement = event.target.parentNode.parentNode;
     let toggleText = event.target.previousSibling;
-    let bookObject = findThisBook(bookItself.id);
-    if (bookObject.read == true) {
-        bookItself.className = 'book-unread';
+    let isRead = await checkReadStatus(bookElement)
+    if (isRead == true) {
+        bookElement.className = 'book-unread';
         toggleText.innerText = 'Mark As Read';
-        bookObject.read = false;
+        if (loggedIn == true) {
+            changeReadDbField(userId, bookElement.id, false)
+        } else {
+            let bookObject = findThisBook(bookElement.id);
+            bookObject.read = false;
+            localStorage.setObj(0, myLibrary);
+        }
         booksRead.innerText = (-1 + Number(booksRead.innerText)).toString();
         booksNotRead.innerText = (1 + Number(booksNotRead.innerText)).toString();
     } else {
-        bookItself.className = 'book-read';
+        bookElement.className = 'book-read';
         toggleText.innerText = 'Mark As Unread';
-        bookObject.read = true;
+        if (loggedIn == true) {
+            changeReadDbField(userId, bookElement.id, true)
+        } else {
+            let bookObject = findThisBook(bookElement.id)
+            bookObject.read = true;
+            localStorage.setObj(0, myLibrary);
+        }
         booksRead.innerText = (1 + Number(booksRead.innerText)).toString();
         booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
     };    
 };
+
+// Check read status of book object
+const checkReadStatus = (bookElement) => {
+    if (loggedIn == true) {
+        return returnReadField(userId, bookElement.id)
+    } else {
+        let bookObject = findThisBook(bookElement.id)
+        return bookObject.read
+    }
+}
 
 // X Button Function
 const deleteBookEntry = function(event) {

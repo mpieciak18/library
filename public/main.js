@@ -28966,7 +28966,7 @@ function hu(t) {
     return new ru(new jt(a), c, u);
 }
 
-class fu extends (/* unused pure expression or super */ null && (nu)) {
+class fu extends nu {
     _toFieldTransform(t) {
         if (2 /* MergeSet */ !== t.xa) throw 1 /* Update */ === t.xa ? t.Ua(`${this._methodName}() can only appear at the top level of your update data`) : t.Ua(`${this._methodName}() cannot be used with set() unless you pass {merge:true}`);
         // No transform to add for a delete, but we need to add it to our
@@ -29063,7 +29063,7 @@ class gu extends (/* unused pure expression or super */ null && (nu)) {
         const a = vu(e, t, n);
         // For Compat types, we have to "extract" the underlying types before
         // performing validation.
-                s = getModularInstance(s);
+                s = index_esm2017_getModularInstance(s);
         const c = i.La(a);
         if (s instanceof fu) 
         // Add it to the field mask, but don't add anything to updateData.
@@ -29088,7 +29088,7 @@ class gu extends (/* unused pure expression or super */ null && (nu)) {
         let n = c[t];
         // For Compat types, we have to "extract" the underlying types before
         // performing validation.
-                n = getModularInstance(n);
+                n = index_esm2017_getModularInstance(n);
         const s = o.La(e);
         if (n instanceof fu) 
         // Add it to the field mask, but don't add anything to updateData.
@@ -30374,7 +30374,7 @@ function yh(t, e, n, ...s) {
     o = "string" == typeof (
     // For Compat types, we have to "extract" the underlying types before
     // performing validation.
-    e = getModularInstance(e)) || e instanceof index_esm2017_Zc ? pu(r, "updateDoc", t._key, e, n, s) : yu(r, "updateDoc", t._key, e);
+    e = index_esm2017_getModularInstance(e)) || e instanceof index_esm2017_Zc ? pu(r, "updateDoc", t._key, e, n, s) : yu(r, "updateDoc", t._key, e);
     return Ah(i, [ o.toMutation(t._key, Je.exists(!0)) ]);
 }
 
@@ -30740,6 +30740,7 @@ const retrieveBooks = async (userId) => {
     const booksRef = await wh(books)
     let booksArr = []
     booksRef.forEach((doc) => {
+        console.log(doc)
         const bookObj = doc.data()
         bookObj.id = doc.id
         booksArr = [...booksArr, bookObj]
@@ -30770,6 +30771,26 @@ const delBookFromDb = async (userId, bookId) => {
     const books = index_esm2017_Vc(user, "books")
     const book = index_esm2017_Dc(books, bookId)
     await ph(book)
+}
+
+// Change read field in book doc reference
+const changeReadDbField = async (userId, bookId, boolean) => {
+    const users = index_esm2017_Vc(firebase_db, "users")
+    const user = index_esm2017_Dc(users, userId)
+    const books = index_esm2017_Vc(user, "books")
+    const book = index_esm2017_Dc(books, bookId)
+    await yh(book, {read: boolean})
+}
+
+// Return read field from book doc reference
+const returnReadField = async (userId, bookId) => {
+    const usersRef = index_esm2017_Vc(firebase_db, "users")
+    const userRef = index_esm2017_Dc(usersRef, userId)
+    const booksRef = index_esm2017_Vc(userRef, "books")
+    const bookRef = index_esm2017_Dc(booksRef, bookId)
+    const book = await hh(bookRef)
+    const readStatus = book.data().read
+    return readStatus
 }
 
 // Register, and then sign in, user
@@ -31321,24 +31342,46 @@ const findThisBook = function(elementId) {
 };
 
 // Toggle Button Function
-const changeReadStatus = function(event) {
-    let bookItself = event.target.parentNode.parentNode;
+const changeReadStatus = async function(event) {
+    let bookElement = event.target.parentNode.parentNode;
     let toggleText = event.target.previousSibling;
-    let bookObject = findThisBook(bookItself.id);
-    if (bookObject.read == true) {
-        bookItself.className = 'book-unread';
+    let isRead = await checkReadStatus(bookElement)
+    if (isRead == true) {
+        bookElement.className = 'book-unread';
         toggleText.innerText = 'Mark As Read';
-        bookObject.read = false;
+        if (loggedIn == true) {
+            changeReadDbField(userId, bookElement.id, false)
+        } else {
+            let bookObject = findThisBook(bookElement.id);
+            bookObject.read = false;
+            localStorage.setObj(0, myLibrary);
+        }
         booksRead.innerText = (-1 + Number(booksRead.innerText)).toString();
         booksNotRead.innerText = (1 + Number(booksNotRead.innerText)).toString();
     } else {
-        bookItself.className = 'book-read';
+        bookElement.className = 'book-read';
         toggleText.innerText = 'Mark As Unread';
-        bookObject.read = true;
+        if (loggedIn == true) {
+            changeReadDbField(userId, bookElement.id, true)
+        } else {
+            let bookObject = findThisBook(bookElement.id)
+            bookObject.read = true;
+            localStorage.setObj(0, myLibrary);
+        }
         booksRead.innerText = (1 + Number(booksRead.innerText)).toString();
         booksNotRead.innerText = (-1 + Number(booksNotRead.innerText)).toString();
     };    
 };
+
+// Check read status of book object
+const checkReadStatus = (bookElement) => {
+    if (loggedIn == true) {
+        return returnReadField(userId, bookElement.id)
+    } else {
+        let bookObject = findThisBook(bookElement.id)
+        return bookObject.read
+    }
+}
 
 // X Button Function
 const deleteBookEntry = function(event) {
@@ -31570,7 +31613,6 @@ const initBooksLoggedIn = async (userId) => {
     // Add & render books from retrieved array of book objects
     for (let i = 0; i < library.length; i++) {
         const book = library[i]
-        console.log(book)
         new Book(book.title, book.author, book.length, book.language, book.read, book.id)
     };
 }

@@ -4,7 +4,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword
 } from 'firebase/auth';
-import { getFirestore, doc, setDoc, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, collection, getDocs, addDoc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -30,6 +30,7 @@ const retrieveBooks = async (userId) => {
     const booksRef = await getDocs(books)
     let booksArr = []
     booksRef.forEach((doc) => {
+        console.log(doc)
         const bookObj = doc.data()
         bookObj.id = doc.id
         booksArr = [...booksArr, bookObj]
@@ -62,6 +63,26 @@ const delBookFromDb = async (userId, bookId) => {
     await deleteDoc(book)
 }
 
+// Change read field in book doc reference
+const changeReadDbField = async (userId, bookId, boolean) => {
+    const users = collection(db, "users")
+    const user = doc(users, userId)
+    const books = collection(user, "books")
+    const book = doc(books, bookId)
+    await updateDoc(book, {read: boolean})
+}
+
+// Return read field from book doc reference
+const returnReadField = async (userId, bookId) => {
+    const usersRef = collection(db, "users")
+    const userRef = doc(usersRef, userId)
+    const booksRef = collection(userRef, "books")
+    const bookRef = doc(booksRef, bookId)
+    const book = await getDoc(bookRef)
+    const readStatus = book.data().read
+    return readStatus
+}
+
 // Register, and then sign in, user
 const createUser = async (auth, email, password) => {
     try {
@@ -87,4 +108,4 @@ const signinUser = async (auth, email, password) => {
     }
 }
 
-export { app, retrieveBooks, addBookToDb, delBookFromDb, createUser, signinUser }
+export { app, retrieveBooks, addBookToDb, delBookFromDb, changeReadDbField, returnReadField, createUser, signinUser }
