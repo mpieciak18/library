@@ -1,5 +1,5 @@
 /* (A) WRAPPER */
-#pop-up {
+#entry {
     position: fixed;
     top: 0; left: 0;
     z-index: 999;
@@ -10,13 +10,13 @@
     opacity: 0;
     transition: opacity 0.2s;
   }
-  #pop-up.open {
+  #entry.open {
     visibility: visible;
     opacity: 1;
   }
   
   /* (B) BOX */
-  #pop-box {
+  #entry-box {
     position: relative;
     max-width: 400px;
     background: white;
@@ -27,24 +27,24 @@
     transform: translateY(-50%);
     border-radius: 5px;
   }
-  #pop-box > * {
+  #entry-box > * {
     font-family: 'PT Sans', sans-serif;
     color: #164460;
   }
   
   /* (C) TITLE */
-  #pop-title {
+  #entry-title {
     padding: 10px;
     margin: 0;
     font-family: 'PT Sans Narrow', sans-serif;
   }
   
   /* (D) FORM */
-  .pop-labels {
+  .entry-labels {
     display: block;
   }
 
-  .pop-inputs {
+  .entry-inputs {
     display: block;
     width: 96.66%;
     height: 30px;
@@ -52,27 +52,27 @@
     font-size: small;
   }
 
-  .pop-radio-labels {
+  .entry-radio-labels {
     display: inline;
     margin-right: 20px;
     font-size: medium;
   }
 
-  .pop-radio-inputs {
+  .entry-radio-inputs {
     display: inline;
   }
 
-  #radio-box {
+  #entry-radio-box {
     margin-bottom: 20px;
     margin-top: 10px;
   }
 
-  #submit {
+  #entry-submit {
     font-size: medium;
   }
   
   /* (E) CLOSE BUTTON */
-  #pop-close {
+  #entry-close {
     position: absolute;
     top: 0; right: 5px;
     padding: 5px;
