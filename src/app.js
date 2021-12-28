@@ -28,16 +28,21 @@ const sortChildrenIndex = {
 };
 
 // Attach auth state change listener, which updates login menu area
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged(async (user) => {
     if (user) {
         loggedIn = true
+        removeAllChildren(document.getElementById('book-section'))
+        clearLibLogStats()
         renderLoginMenu(loggedIn, user.email, () => auth.signOut())
         userId = user.uid
-        initBooksLoggedIn(userId)
+        await initBooksLoggedIn(userId)
         myLibrary = []
     } else {
         loggedIn = false
+        removeAllChildren(document.getElementById('book-section'))
+        clearLibLogStats()
         renderLoginMenu(loggedIn, login.open, register.open)
+        userId = ''
         initBooksLoggedOut()
     }
 })
@@ -396,6 +401,20 @@ entryButton.firstChild.addEventListener('click', entry.open);
 entry.pForm.addEventListener('submit', newBookFromForm);
 sortByDropdown.addEventListener('change', sortByChange);
 ascDescDropdown.addEventListener('change', ascDescChange);
+
+// Clear lib-log stats
+const clearLibLogStats = () => {
+    booksRead.innerText = '0'
+    booksNotRead.innerText = '0'
+    booksTotal.innerText = '0'
+}
+
+// Remove all child nodes from a parent node
+const removeAllChildren = (parent) => {
+    while (parent.firstChild) {
+        parent.firstChild.remove()
+    }
+}
 
 // Initialize book objects & render to DOM while logged out
 const initBooksLoggedOut = () => {

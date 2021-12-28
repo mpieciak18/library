@@ -30,7 +30,6 @@ const retrieveBooks = async (userId) => {
     const booksRef = await getDocs(books)
     let booksArr = []
     booksRef.forEach((doc) => {
-        console.log(doc)
         const bookObj = doc.data()
         bookObj.id = doc.id
         booksArr = [...booksArr, bookObj]
