@@ -101,10 +101,20 @@ const entryButton = document.getElementById('entry-button');
 const navSection = document.getElementById('nav-section');
 const favicon = document.getElementById('favicon');
 const entryBox = document.getElementById('entry-box');
+const registerBox = document.getElementById('register-box')
+const loginBox = document.getElementById('login-box')
 
 // Dark Mode Function
-const changeDarkMode = function(event) {
-    if (event.target.checked) {
+const changeDarkMode = function(event = null) {
+    // Grab toggle status
+    let buttonStatus
+    if (event == null) {
+        buttonStatus = darkModeButton.checked
+    } else {
+        buttonStatus = event.target.checked
+    }
+    // Change styling
+    if (buttonStatus == true) {
         pageTitle.style.color = '#c4e5f3';
         pageLogo.src = 'images/logo-2.svg';
         favicon.href = 'images/logo-2.svg';
@@ -123,6 +133,18 @@ const changeDarkMode = function(event) {
         for (let i = 0; i < entryBox.children.length; i++) {
             entryBox.children[i].style.color = '#c4e5f3';
         };
+        registerBox.style.backgroundColor = 'rgb(35, 35, 35)';
+        for (let i = 0; i < registerBox.children.length; i++) {
+            registerBox.children[i].style.color = '#c4e5f3';
+        };
+        loginBox.style.backgroundColor = 'rgb(35, 35, 35)';
+        for (let i = 0; i < loginBox.children.length; i++) {
+            loginBox.children[i].style.color = '#c4e5f3';
+        };
+        const welcomeMessage = document.getElementById('welcome-message')
+        if (welcomeMessage) {
+            welcomeMessage.style.color = '#c4e5f3'
+        }
     } else {
         pageTitle.style.color = '#164460';
         pageLogo.src = 'images/logo.svg';
@@ -142,6 +164,18 @@ const changeDarkMode = function(event) {
         for (let i = 0; i < entryBox.children.length; i++) {
             entryBox.children[i].style.color = '#164460';
         };
+        registerBox.style.backgroundColor = 'white';
+        for (let i = 0; i < registerBox.children.length; i++) {
+            registerBox.children[i].style.color = '#164460';
+        };
+        loginBox.style.backgroundColor = 'white';
+        for (let i = 0; i < loginBox.children.length; i++) {
+            loginBox.children[i].style.color = '#164460';
+        };
+        const welcomeMessage = document.getElementById('welcome-message')
+        if (welcomeMessage) {
+            welcomeMessage.style.color = '#164460'
+        }
     };
 };
 
@@ -431,6 +465,7 @@ const initBooksLoggedOut = () => {
         new Book('Beyond Order: 12 More Rules For Life', 'Jordan B. Peterson', '432', 'English', false);
         new Book('Fear and Loathing in Las Vegas', 'Hunter S. Thompson', '204', 'English', false);
     };
+    changeDarkMode()
 }
 
 // Initialize book objects & render to DOM while logged in
@@ -442,4 +477,5 @@ const initBooksLoggedIn = async (userId) => {
         const book = library[i]
         new Book(book.title, book.author, book.length, book.language, book.read, book.id)
     };
+    changeDarkMode()
 }
