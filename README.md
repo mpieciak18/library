@@ -1,6 +1,6 @@
 # Library
 
-"... a simple library rolodex'
+"... a simple library rolodex"
 
 This project is from the [the Odin Project](https://www.theodinproject.com) (specifically, from their [Full Stack Javascript](https://www.theodinproject.com/paths/full-stack-javascript) curriculum). 
 
