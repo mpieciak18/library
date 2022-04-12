@@ -5,7 +5,7 @@ import {
     signInWithEmailAndPassword
 } from 'firebase/auth';
 import { getFirestore, doc, setDoc, collection, getDocs, addDoc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
-import { apiKey } from './api.js';
+import { apiKey } from './firebaseApi.js';
 
 // Firebase configuration
 const firebaseConfig = {
