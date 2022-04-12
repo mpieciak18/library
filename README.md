@@ -1,16 +1,16 @@
-# Library
+# MyLibrary
 
-"... a simple library rolodex"
+"... a personal library rolodex"
 
 This project is from the [the Odin Project](https://www.theodinproject.com) (specifically, from their [Full Stack Javascript](https://www.theodinproject.com/paths/full-stack-javascript) curriculum). 
 
 [Click here](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/library) to read more about the project specifications.
 
-![live preview of the library app](./public/images/sample.gif)
+![Live preview of the MyLibrary app](./public/images/sample.gif)
 
 ## Live App
 
-[Click here](https://mpieciak18.github.io/library/) to check out the live version of the app!
+[Click here](https://mpieciak18.github.io/my-library/) to check out the live version of the app!
 
 ## Project Objectives
 
