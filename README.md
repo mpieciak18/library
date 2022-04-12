@@ -2,7 +2,9 @@
 
 "... a simple library rolodex'
 
-This project is from [the Odin Project](https://www.theodinproject.com)(specifically, from their [Full Stack Javascript](https://www.theodinproject.com/paths/full-stack-javascript) curriculum). [Click here](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/library) to read more about the project requirements.
+This project is from the [the Odin Project](https://www.theodinproject.com) (specifically, from their [Full Stack Javascript](https://www.theodinproject.com/paths/full-stack-javascript) curriculum). 
+
+[Click here](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/library) to read more about the project specifications.
 
 ![live preview of the library app](./public/images/sample.gif)
 
@@ -15,14 +17,14 @@ This project is from [the Odin Project](https://www.theodinproject.com)(specific
 1. To create an application that can track & save a user's list of books.
 2. To implement user authentication and a database using Google Firebase.
 
-## Technoligies Used
+## Technologies Used
 
 <p align="left"> 
 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="50" height="50"/> </a> 
 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="50" height="50"/> </a>
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="50" height="50"/> </a>
 <a href="https://firebase.google.com/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982099a2bd027a48bf1/icons/firebase/firebase-plain.svg" alt="firebase" width="50" height="50"/> </a>
-<a href="https://webpack.js.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/d00d0969292a6569d45b06d3f350f463a0107b0d/icons/webpack/webpack-original-wordmark.svg" alt="webpack" width="50" height="50"/> </a> 
+<a href="https://webpack.js.org" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982099a2bd027a48bf1/icons/webpack/webpack-original.svg" alt="webpack" width="50" height="50"/> </a> 
 </p>
 
 ## App Features
