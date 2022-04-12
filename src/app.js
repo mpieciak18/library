@@ -1,8 +1,7 @@
 // Import Firebase functions
-import { app, retrieveBooks, addBookToDb, delBookFromDb, changeReadDbField, returnReadField, createUser, signinUser } from './firebase.js';
+import { retrieveBooks, addBookToDb, delBookFromDb, changeReadDbField, returnReadField, createUser, signinUser } from './firebase.js';
 import { renderLoginMenu } from './modules/components/loginMenu.js';
 import { getAuth } from 'firebase/auth';
-import {  } from 'firebase/firestore';
 
 const auth = getAuth()
 
@@ -457,6 +456,7 @@ const initBooksLoggedOut = () => {
         let library = localStorage.getObj(0);
         for (let i = 0; i < library.length; i++) {
             const book = library[i]
+            console.log(book)
             new Book(book.title, book.author, book.length, book.language, book.read)
         };
     // If local storage is empty, add & render default example books

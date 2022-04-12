@@ -5,10 +5,11 @@ import {
     signInWithEmailAndPassword
 } from 'firebase/auth';
 import { getFirestore, doc, setDoc, collection, getDocs, addDoc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { apiKey } from './api.js';
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyD27BaorWNp_7HTAcFpfcQJEU2k6O75HpU",
+    apiKey: apiKey,
     authDomain: "library-92910.firebaseapp.com",
     projectId: "library-92910",
     storageBucket: "library-92910.appspot.com",
